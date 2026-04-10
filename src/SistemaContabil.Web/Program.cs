@@ -233,13 +233,7 @@ app.MapHealthChecksUI(options =>
     options.UIPath = "/health-ui";
 });
 
-app.UseRateLimiter();
-
-if (app.Environment.IsDevelopment())
-{
-    app.MapOpenApi();
-    app.MapScalarApiReference();
-}
+//app.UseRateLimiter();
 
 // Test endpoint
 app.MapGet("/", () => Results.Ok(new { 
