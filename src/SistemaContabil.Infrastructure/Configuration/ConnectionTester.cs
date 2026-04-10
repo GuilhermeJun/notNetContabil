@@ -3,14 +3,10 @@ using Microsoft.Extensions.Logging;
 
 namespace SistemaContabil.Infrastructure.Configuration;
 
-/// <summary>
 /// Testador de conexões Oracle
-/// </summary>
 public static class ConnectionTester
 {
-    /// <summary>
     /// Testa todas as strings de conexão e retorna a primeira que funciona
-    /// </summary>
     /// <param name="logger">Logger para registrar resultados (opcional)</param>
     /// <returns>String de conexão que funciona ou null se nenhuma funcionar</returns>
     public static async Task<string?> TestConnectionsAsync(ILogger? logger = null)
@@ -38,9 +34,7 @@ public static class ConnectionTester
         return null;
     }
 
-    /// <summary>
     /// Testa uma string de conexão específica
-    /// </summary>
     /// <param name="connectionString">String de conexão para testar</param>
     /// <param name="logger">Logger para registrar resultados</param>
     /// <returns>True se a conexão funcionar</returns>

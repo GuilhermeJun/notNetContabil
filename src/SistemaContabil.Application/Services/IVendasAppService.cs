@@ -28,11 +28,6 @@ public interface IVendasAppService
     Task<VendasDto> AtualizarAsync(int id, AtualizarVendasDto dto);
 
     /// <summary>
-    /// Remove uma venda
-    /// </summary>
-    Task<bool> RemoverAsync(int id);
-
-    /// <summary>
     /// Busca paginada de vendas
     /// </summary>
     Task<PagedResultDto<VendasDto>> SearchAsync(FiltroVendasDto filtro);

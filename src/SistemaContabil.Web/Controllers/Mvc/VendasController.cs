@@ -155,21 +155,4 @@ public class VendasController : Controller
         return View(venda);
     }
 
-    // POST: Vendas/Delete/5
-    [HttpPost, ActionName("Delete")]
-    [ValidateAntiForgeryToken]
-    public async Task<IActionResult> DeleteConfirmed(int id)
-    {
-        try
-        {
-            await _service.RemoverAsync(id);
-            TempData["Success"] = "Venda removida com sucesso!";
-        }
-        catch (Exception ex)
-        {
-            _logger.LogError(ex, "Erro ao remover venda {Id}", id);
-            TempData["Error"] = $"Erro ao remover venda: {ex.Message}";
-        }
-        return RedirectToAction(nameof(Index));
-    }
 }

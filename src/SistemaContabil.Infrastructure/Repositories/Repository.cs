@@ -5,9 +5,7 @@ using System.Linq.Expressions;
 
 namespace SistemaContabil.Infrastructure.Repositories;
 
-/// <summary>
 /// Implementação genérica do repositório
-/// </summary>
 /// <typeparam name="T">Tipo da entidade</typeparam>
 public class Repository<T> : IRepository<T> where T : class
 {

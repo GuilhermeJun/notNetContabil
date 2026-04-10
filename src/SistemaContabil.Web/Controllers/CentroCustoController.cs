@@ -5,9 +5,6 @@ using SistemaContabil.Web.Helpers;
 
 namespace SistemaContabil.Web.Controllers;
 
-/// <summary>
-/// Controller para operações de Centro de Custo
-/// </summary>
 [ApiController]
 [Route("api/[controller]")]
 public class CentroCustoController : ControllerBase
@@ -21,9 +18,7 @@ public class CentroCustoController : ControllerBase
         _logger = logger;
     }
 
-    /// <summary>
     /// Obtém todos os centros de custo
-    /// </summary>
     /// <returns>Lista de centros de custo</returns>
     /// <response code="200">Retorna a lista de centros de custo</response>
     /// <response code="500">Erro interno do servidor</response>
@@ -46,9 +41,7 @@ public class CentroCustoController : ControllerBase
         }
     }
 
-    /// <summary>
     /// Obtém um centro de custo por ID
-    /// </summary>
     /// <param name="id">ID do centro de custo</param>
     /// <returns>Centro de custo encontrado</returns>
     /// <response code="200">Retorna o centro de custo</response>
@@ -88,9 +81,7 @@ public class CentroCustoController : ControllerBase
         }
     }
 
-    /// <summary>
     /// Cria um novo centro de custo
-    /// </summary>
     /// <param name="dto">Dados do centro de custo a ser criado</param>
     /// <returns>Centro de custo criado</returns>
     /// <response code="201">Centro de custo criado com sucesso</response>
@@ -132,9 +123,7 @@ public class CentroCustoController : ControllerBase
         }
     }
 
-    /// <summary>
     /// Atualiza um centro de custo existente
-    /// </summary>
     /// <param name="id">ID do centro de custo</param>
     /// <param name="dto">Dados atualizados do centro de custo</param>
     /// <returns>Centro de custo atualizado</returns>
@@ -191,9 +180,7 @@ public class CentroCustoController : ControllerBase
         }
     }
 
-    /// <summary>
     /// Remove um centro de custo
-    /// </summary>
     /// <param name="id">ID do centro de custo</param>
     /// <returns>Resultado da operação</returns>
     /// <response code="200">Centro de custo removido com sucesso</response>

@@ -4,9 +4,6 @@ using SistemaContabil.Application.Services;
 
 namespace SistemaContabil.Web.Controllers.Mvc;
 
-/// <summary>
-/// Controller MVC para Clientes
-/// </summary>
 public class ClienteController : Controller
 {
     private readonly IClienteAppService _service;

@@ -3,9 +3,7 @@ using SistemaContabil.Domain.Interfaces;
 
 namespace SistemaContabil.Domain.Services;
 
-/// <summary>
 /// Serviço de domínio para Centro de Custo
-/// </summary>
 public class CentroCustoService : ICentroCustoService
 {
     private readonly ICentroCustoRepository _repository;

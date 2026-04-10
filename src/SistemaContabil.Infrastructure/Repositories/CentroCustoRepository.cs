@@ -5,9 +5,6 @@ using SistemaContabil.Infrastructure.Data;
 
 namespace SistemaContabil.Infrastructure.Repositories;
 
-/// <summary>
-/// Implementação do repositório de Centro de Custo
-/// </summary>
 public class CentroCustoRepository : Repository<CentroCusto>, ICentroCustoRepository
 {
     public CentroCustoRepository(SistemaContabilDbContext context) : base(context)

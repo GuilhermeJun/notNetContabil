@@ -3,9 +3,7 @@ using SistemaContabil.Application.DTOs;
 
 namespace SistemaContabil.Application.Validators;
 
-/// <summary>
 /// Validador para RegistroContabilDto
-/// </summary>
 public class RegistroContabilValidator : AbstractValidator<RegistroContabilDto>
 {
     public RegistroContabilValidator()
@@ -22,9 +20,7 @@ public class RegistroContabilValidator : AbstractValidator<RegistroContabilDto>
     }
 }
 
-/// <summary>
 /// Validador para CriarRegistroContabilDto
-/// </summary>
 public class CriarRegistroContabilValidator : AbstractValidator<CriarRegistroContabilDto>
 {
     public CriarRegistroContabilValidator()
@@ -41,9 +37,7 @@ public class CriarRegistroContabilValidator : AbstractValidator<CriarRegistroCon
     }
 }
 
-/// <summary>
 /// Validador para AtualizarRegistroContabilDto
-/// </summary>
 public class AtualizarRegistroContabilValidator : AbstractValidator<AtualizarRegistroContabilDto>
 {
     public AtualizarRegistroContabilValidator()
@@ -60,9 +54,7 @@ public class AtualizarRegistroContabilValidator : AbstractValidator<AtualizarReg
     }
 }
 
-/// <summary>
 /// Validador para FiltroRegistroContabilDto
-/// </summary>
 public class FiltroRegistroContabilValidator : AbstractValidator<FiltroRegistroContabilDto>
 {
     public FiltroRegistroContabilValidator()

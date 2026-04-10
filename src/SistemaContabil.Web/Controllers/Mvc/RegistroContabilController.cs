@@ -6,9 +6,6 @@ using SistemaContabil.Application.Services;
 
 namespace SistemaContabil.Web.Controllers.Mvc;
 
-/// <summary>
-/// Controller MVC para Registros Contábeis
-/// </summary>
 public class RegistroContabilController : Controller
 {
     private readonly IRegistroContabilAppService _service;

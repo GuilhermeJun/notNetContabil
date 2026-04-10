@@ -5,9 +5,6 @@ using SistemaContabil.Infrastructure.Data;
 
 namespace SistemaContabil.Infrastructure.Repositories;
 
-/// <summary>
-/// Implementação do repositório de Registro Contábil
-/// </summary>
 public class RegistroContabilRepository : Repository<RegistroContabil>, IRegistroContabilRepository
 {
     public RegistroContabilRepository(SistemaContabilDbContext context) : base(context)

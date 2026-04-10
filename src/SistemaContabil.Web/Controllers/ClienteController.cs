@@ -5,9 +5,6 @@ using SistemaContabil.Web.Helpers;
 
 namespace SistemaContabil.Web.Controllers;
 
-/// <summary>
-/// Controller para gerenciamento de Clientes
-/// </summary>
 [ApiController]
 [Route("api/[controller]")]
 [Produces("application/json")]
@@ -22,9 +19,6 @@ public class ClienteController : ControllerBase
         _logger = logger;
     }
 
-    /// <summary>
-    /// Obtém todos os clientes
-    /// </summary>
     [HttpGet]
     [ProducesResponseType(typeof(IEnumerable<ClienteDto>), StatusCodes.Status200OK)]
     public async Task<ActionResult<IEnumerable<ClienteDto>>> GetAll()
@@ -41,9 +35,6 @@ public class ClienteController : ControllerBase
         }
     }
 
-    /// <summary>
-    /// Obtém um cliente por ID
-    /// </summary>
     [HttpGet("{id}")]
     [ProducesResponseType(typeof(ClienteDto), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -66,9 +57,6 @@ public class ClienteController : ControllerBase
         }
     }
 
-    /// <summary>
-    /// Cria um novo cliente
-    /// </summary>
     [HttpPost]
     [ProducesResponseType(typeof(ClienteDto), StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -96,9 +84,6 @@ public class ClienteController : ControllerBase
         }
     }
 
-    /// <summary>
-    /// Atualiza um cliente existente
-    /// </summary>
     [HttpPut("{id}")]
     [ProducesResponseType(typeof(ClienteDto), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -132,9 +117,6 @@ public class ClienteController : ControllerBase
         }
     }
 
-    /// <summary>
-    /// Remove um cliente
-    /// </summary>
     [HttpDelete("{id}")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]

@@ -52,11 +52,6 @@ public class VendasAppService : IVendasAppService
         return _mapper.Map<VendasDto>(venda);
     }
 
-    public async Task<bool> RemoverAsync(int id)
-    {
-        return await _vendasService.RemoverAsync(id);
-    }
-
     public async Task<PagedResultDto<VendasDto>> SearchAsync(FiltroVendasDto filtro)
     {
         filtro.Validate();

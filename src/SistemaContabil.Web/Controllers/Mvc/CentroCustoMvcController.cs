@@ -4,9 +4,6 @@ using SistemaContabil.Application.Services;
 
 namespace SistemaContabil.Web.Controllers.Mvc;
 
-/// <summary>
-/// Controller MVC para Centros de Custo
-/// </summary>
 public class CentroCustoController : Controller
 {
     private readonly ICentroCustoAppService _service;

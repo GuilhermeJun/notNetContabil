@@ -7,18 +7,14 @@ using SistemaContabil.Infrastructure.Repositories;
 
 namespace SistemaContabil.Infrastructure.Configuration;
 
-/// <summary>
 /// Configuração do banco de dados
-/// </summary>
 public static class DatabaseConfiguration
 {
-    /// <summary>
     /// Strings de conexão para Oracle FIAP (múltiplas opções)
-    /// </summary>
     public static readonly string[] ConnectionStrings = new[]
     {
         // Opção 1: Service Name FREEPDB1 (FORMATO CORRETO)
-        "Data Source=140.238.179.84:1521/FREEPDB1;User Id=appuser;Password=AppPass#2025;",
+        "Data Source=//oracle.fiap.com.br:1521/orcl;User Id=rm559986; Password=240200;",
         
         // Opção 2: Service Name FREEPDB1 com timeout
         "Data Source=140.238.179.84:1521/FREEPDB1;User Id=appuser;Password=AppPass#2025;Connection Timeout=30;",
@@ -30,14 +26,10 @@ public static class DatabaseConfiguration
         "Data Source=(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=140.238.179.84)(PORT=1521))(CONNECT_DATA=(SERVICE_NAME=FREEPDB1)));User Id=appuser;Password=AppPass#2025;Connection Timeout=30;"
     };
 
-    /// <summary>
     /// String de conexão atual (será testada)
-    /// </summary>
     public static string ConnectionString => ConnectionStrings[0]; // Começa com a primeira opção
 
-    /// <summary>
     /// Configura o Entity Framework Core para Oracle
-    /// </summary>
     /// <param name="services">Coleção de serviços</param>
     /// <param name="configuration">Configuração da aplicação</param>
     /// <returns>Coleção de serviços configurada</returns>
@@ -64,9 +56,7 @@ public static class DatabaseConfiguration
         return services;
     }
 
-    /// <summary>
     /// Configura o banco de dados para desenvolvimento
-    /// </summary>
     /// <param name="services">Coleção de serviços</param>
     /// <returns>Coleção de serviços configurada</returns>
     public static IServiceCollection AddDatabaseDevelopment(

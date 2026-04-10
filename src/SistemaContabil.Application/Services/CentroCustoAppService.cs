@@ -2,12 +2,11 @@ using AutoMapper;
 using SistemaContabil.Application.DTOs;
 using SistemaContabil.Domain.Interfaces;
 using SistemaContabil.Domain.Services;
+using Xunit;
 
 namespace SistemaContabil.Application.Services;
 
-/// <summary>
 /// Serviço de aplicação para Centro de Custo
-/// </summary>
 public class CentroCustoAppService : ICentroCustoAppService
 {
     private readonly ICentroCustoService _centroCustoService;

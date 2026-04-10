@@ -3,38 +3,19 @@ using SistemaContabil.Domain.Entities;
 
 namespace SistemaContabil.Infrastructure.Data;
 
-/// <summary>
-/// Contexto do banco de dados para o sistema contábil
-/// </summary>
 public class SistemaContabilDbContext : DbContext
 {
     public SistemaContabilDbContext(DbContextOptions<SistemaContabilDbContext> options) : base(options)
     {
     }
-
-    /// <summary>
-    /// Tabela de centros de custo
-    /// </summary>
     public DbSet<CentroCusto> CentrosCusto { get; set; } = null!;
 
-    /// <summary>
-    /// Tabela de contas contábeis
-    /// </summary>
     public DbSet<Conta> Contas { get; set; } = null!;
 
-    /// <summary>
-    /// Tabela de registros contábeis
-    /// </summary>
     public DbSet<RegistroContabil> RegistrosContabeis { get; set; } = null!;
 
-    /// <summary>
-    /// Tabela de clientes
-    /// </summary>
     public DbSet<Cliente> Clientes { get; set; } = null!;
 
-    /// <summary>
-    /// Tabela de vendas
-    /// </summary>
     public DbSet<Vendas> Vendas { get; set; } = null!;
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -109,7 +90,7 @@ public class SistemaContabilDbContext : DbContext
                 .HasColumnType("NUMBER(9,2)")
                 .IsRequired();
             entity.Property(e => e.ContaIdConta)
-                .HasColumnName("CONTA_ID_CONTA")
+                .HasColumnName("CONTA_CONTABIL_ID_CONTA")
                 .IsRequired();
             entity.Property(e => e.CentroCustoIdCentroCusto)
                 .HasColumnName("CENTRO_CUSTO_ID_CENTRO_CUSTO")
@@ -208,6 +189,11 @@ public class SistemaContabilDbContext : DbContext
                 .IsRequired();
             entity.Property(e => e.VendaEventoIdEvento)
                 .HasColumnName("VENDA_EVENTO_ID_EVENTO");
+
+            // Índices únicos
+            entity.HasIndex(e => e.VendaEventoIdEvento)
+                .IsUnique()
+                .HasDatabaseName("VENDA_ID_EVENTO_UN");
 
             // Relacionamentos
             entity.HasOne(e => e.Cliente)

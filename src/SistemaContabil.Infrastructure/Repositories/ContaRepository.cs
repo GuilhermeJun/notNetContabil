@@ -5,9 +5,6 @@ using SistemaContabil.Infrastructure.Data;
 
 namespace SistemaContabil.Infrastructure.Repositories;
 
-/// <summary>
-/// Implementação do repositório de Conta
-/// </summary>
 public class ContaRepository : Repository<Conta>, IContaRepository
 {
     public ContaRepository(SistemaContabilDbContext context) : base(context)

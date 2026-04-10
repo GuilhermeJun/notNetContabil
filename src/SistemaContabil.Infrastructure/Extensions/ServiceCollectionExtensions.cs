@@ -5,14 +5,10 @@ using SistemaContabil.Infrastructure.Configuration;
 
 namespace SistemaContabil.Infrastructure.Extensions;
 
-/// <summary>
 /// Extensões para configuração de serviços da camada de infraestrutura
-/// </summary>
 public static class ServiceCollectionExtensions
 {
-    /// <summary>
     /// Adiciona serviços da camada de infraestrutura
-    /// </summary>
     /// <param name="services">Coleção de serviços</param>
     /// <param name="configuration">Configuração da aplicação</param>
     /// <returns>Coleção de serviços configurada</returns>
@@ -27,13 +23,13 @@ public static class ServiceCollectionExtensions
         services.AddScoped<ICentroCustoService, CentroCustoService>();
         services.AddScoped<IContaService, ContaService>();
         services.AddScoped<IRegistroContabilService, RegistroContabilService>();
+        services.AddScoped<IClienteService, ClienteService>();
+        services.AddScoped<IVendasService, VendasService>();
 
         return services;
     }
 
-    /// <summary>
     /// Adiciona serviços da camada de infraestrutura para desenvolvimento
-    /// </summary>
     /// <param name="services">Coleção de serviços</param>
     /// <returns>Coleção de serviços configurada</returns>
     public static IServiceCollection AddInfrastructureDevelopment(

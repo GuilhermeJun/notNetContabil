@@ -3,9 +3,7 @@ using SistemaContabil.Application.DTOs;
 
 namespace SistemaContabil.Application.Validators;
 
-/// <summary>
 /// Validador para CentroCustoDto
-/// </summary>
 public class CentroCustoValidator : AbstractValidator<CentroCustoDto>
 {
     public CentroCustoValidator()
@@ -17,9 +15,7 @@ public class CentroCustoValidator : AbstractValidator<CentroCustoDto>
     }
 }
 
-/// <summary>
 /// Validador para CriarCentroCustoDto
-/// </summary>
 public class CriarCentroCustoValidator : AbstractValidator<CriarCentroCustoDto>
 {
     public CriarCentroCustoValidator()
@@ -31,9 +27,7 @@ public class CriarCentroCustoValidator : AbstractValidator<CriarCentroCustoDto>
     }
 }
 
-/// <summary>
 /// Validador para AtualizarCentroCustoDto
-/// </summary>
 public class AtualizarCentroCustoValidator : AbstractValidator<AtualizarCentroCustoDto>
 {
     public AtualizarCentroCustoValidator()

@@ -4,9 +4,7 @@ using SistemaContabil.Domain.Entities;
 
 namespace SistemaContabil.Application.Mappings;
 
-/// <summary>
 /// Perfil de mapeamento do AutoMapper
-/// </summary>
 public class MappingProfile : Profile
 {
     public MappingProfile()

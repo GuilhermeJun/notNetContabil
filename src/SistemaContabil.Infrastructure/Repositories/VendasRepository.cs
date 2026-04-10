@@ -5,9 +5,6 @@ using SistemaContabil.Infrastructure.Data;
 
 namespace SistemaContabil.Infrastructure.Repositories;
 
-/// <summary>
-/// Implementação do repositório de Vendas
-/// </summary>
 public class VendasRepository : Repository<Vendas>, IVendasRepository
 {
     public VendasRepository(SistemaContabilDbContext context) : base(context)

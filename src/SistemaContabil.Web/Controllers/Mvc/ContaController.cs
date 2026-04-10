@@ -4,9 +4,6 @@ using SistemaContabil.Application.Services;
 
 namespace SistemaContabil.Web.Controllers.Mvc;
 
-/// <summary>
-/// Controller MVC para Contas Contábeis
-/// </summary>
 public class ContaController : Controller
 {
     private readonly IContaAppService _service;

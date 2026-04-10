@@ -7,14 +7,10 @@ using SistemaContabil.Domain.Services;
 
 namespace SistemaContabil.Application.Extensions;
 
-/// <summary>
 /// Extensões para configuração de serviços da camada de aplicação
-/// </summary>
 public static class ServiceCollectionExtensions
 {
-    /// <summary>
     /// Adiciona serviços da camada de aplicação
-    /// </summary>
     /// <param name="services">Coleção de serviços</param>
     /// <returns>Coleção de serviços configurada</returns>
     public static IServiceCollection AddApplicationServices(this IServiceCollection services)
@@ -33,8 +29,7 @@ public static class ServiceCollectionExtensions
         services.AddScoped<IVendasAppService, VendasAppService>();
 
         // Registro dos serviços de domínio
-        services.AddScoped<IClienteService, ClienteService>();
-        services.AddScoped<IVendasService, VendasService>();
+        // (registrations moved to infrastructure layer to avoid cross-layer service registrations)
 
         return services;
     }

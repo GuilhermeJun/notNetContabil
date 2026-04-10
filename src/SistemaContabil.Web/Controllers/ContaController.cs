@@ -4,9 +4,7 @@ using SistemaContabil.Application.Services;
 
 namespace SistemaContabil.Web.Controllers;
 
-/// <summary>
 /// Controller para operações de Conta
-/// </summary>
 [ApiController]
 [Route("api/[controller]")]
 public class ContaController : ControllerBase
@@ -20,9 +18,6 @@ public class ContaController : ControllerBase
         _logger = logger;
     }
 
-    /// <summary>
-    /// Obtém todas as contas
-    /// </summary>
     [HttpGet]
     public async Task<ActionResult<IEnumerable<ContaDto>>> ObterTodos()
     {
@@ -38,9 +33,6 @@ public class ContaController : ControllerBase
         }
     }
 
-    /// <summary>
-    /// Obtém uma conta por ID
-    /// </summary>
     [HttpGet("{id}")]
     public async Task<ActionResult<ContaDto>> ObterPorId(int id)
     {
@@ -59,9 +51,6 @@ public class ContaController : ControllerBase
         }
     }
 
-    /// <summary>
-    /// Cria uma nova conta
-    /// </summary>
     [HttpPost]
     public async Task<ActionResult<ContaDto>> Criar([FromBody] CriarContaDto dto)
     {
@@ -85,9 +74,6 @@ public class ContaController : ControllerBase
         }
     }
 
-    /// <summary>
-    /// Atualiza uma conta existente
-    /// </summary>
     [HttpPut("{id}")]
     public async Task<ActionResult<ContaDto>> Atualizar(int id, [FromBody] AtualizarContaDto dto)
     {
@@ -116,9 +102,6 @@ public class ContaController : ControllerBase
         }
     }
 
-    /// <summary>
-    /// Remove uma conta
-    /// </summary>
     [HttpDelete("{id}")]
     public async Task<ActionResult> Remover(int id)
     {

@@ -3,9 +3,7 @@ using SistemaContabil.Application.DTOs;
 
 namespace SistemaContabil.Application.Validators;
 
-/// <summary>
 /// Validador para ContaDto
-/// </summary>
 public class ContaValidator : AbstractValidator<ContaDto>
 {
     public ContaValidator()
@@ -21,9 +19,7 @@ public class ContaValidator : AbstractValidator<ContaDto>
     }
 }
 
-/// <summary>
 /// Validador para CriarContaDto
-/// </summary>
 public class CriarContaValidator : AbstractValidator<CriarContaDto>
 {
     public CriarContaValidator()
@@ -39,9 +35,7 @@ public class CriarContaValidator : AbstractValidator<CriarContaDto>
     }
 }
 
-/// <summary>
 /// Validador para AtualizarContaDto
-/// </summary>
 public class AtualizarContaValidator : AbstractValidator<AtualizarContaDto>
 {
     public AtualizarContaValidator()

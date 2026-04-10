@@ -3,9 +3,7 @@ using SistemaContabil.Domain.Interfaces;
 
 namespace SistemaContabil.Domain.Services;
 
-/// <summary>
 /// Serviço de domínio para Conta
-/// </summary>
 public class ContaService : IContaService
 {
     private readonly IContaRepository _repository;

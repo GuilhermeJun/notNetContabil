@@ -136,34 +136,4 @@ public class VendasController : ControllerBase
             return StatusCode(500, new { message = "Erro interno do servidor" });
         }
     }
-
-    /// <summary>
-    /// Remove uma venda
-    /// </summary>
-    [HttpDelete("{id}")]
-    [ProducesResponseType(StatusCodes.Status204NoContent)]
-    [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<IActionResult> Delete(int id)
-    {
-        try
-        {
-            var sucesso = await _vendasService.RemoverAsync(id);
-            if (!sucesso)
-            {
-                return NotFound(new { message = $"Venda com ID {id} não encontrada" });
-            }
-
-            return NoContent();
-        }
-        catch (InvalidOperationException ex)
-        {
-            _logger.LogWarning(ex, "Erro ao remover venda {VendaId}", id);
-            return NotFound(new { message = ex.Message });
-        }
-        catch (Exception ex)
-        {
-            _logger.LogError(ex, "Erro ao remover venda {VendaId}", id);
-            return StatusCode(500, new { message = "Erro interno do servidor" });
-        }
-    }
 }

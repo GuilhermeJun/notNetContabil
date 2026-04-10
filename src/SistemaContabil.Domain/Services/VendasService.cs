@@ -3,9 +3,7 @@ using SistemaContabil.Domain.Interfaces;
 
 namespace SistemaContabil.Domain.Services;
 
-/// <summary>
 /// Serviço de domínio para Vendas
-/// </summary>
 public class VendasService : IVendasService
 {
     private readonly IVendasRepository _repository;
@@ -77,15 +75,6 @@ public class VendasService : IVendasService
         venda.VendaEventoIdEvento = vendaEventoId;
 
         return await _repository.AtualizarAsync(venda);
-    }
-
-    public async Task<bool> RemoverAsync(int id)
-    {
-        var venda = await _repository.ObterPorIdAsync(id);
-        if (venda == null)
-            throw new InvalidOperationException($"Venda com ID {id} não encontrada");
-
-        return await _repository.RemoverAsync(id);
     }
 
     public async Task<Vendas?> ObterPorIdAsync(int id)

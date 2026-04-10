@@ -5,9 +5,6 @@ using SistemaContabil.Infrastructure.Data;
 
 namespace SistemaContabil.Infrastructure.Repositories;
 
-/// <summary>
-/// Implementação do repositório de Cliente
-/// </summary>
 public class ClienteRepository : Repository<Cliente>, IClienteRepository
 {
     public ClienteRepository(SistemaContabilDbContext context) : base(context)
