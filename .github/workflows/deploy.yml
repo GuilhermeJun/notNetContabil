@@ -7,7 +7,7 @@ on:
 
 env:
   AZURE_WEBAPP_NAME: api-contabil-prod
-  DOTNET_VERSION: '8.0.x'
+  DOTNET_VERSION: '10.0.x'
   PROJECT_PATH: './SistemaContabil.Web/SistemaContabil.Web.csproj'
 
 jobs:
