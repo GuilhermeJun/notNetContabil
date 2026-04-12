@@ -12,10 +12,10 @@ public class RegistroContabilValidator : AbstractValidator<RegistroContabilDto>
             .GreaterThan(0).WithMessage("Valor deve ser maior que zero")
             .LessThanOrEqualTo(999999.99m).WithMessage("Valor não pode ser maior que 999.999,99");
 
-        RuleFor(x => x.ContaIdConta)
+        RuleFor(x => x.ContaId)
             .GreaterThan(0).WithMessage("ID da conta deve ser maior que zero");
 
-        RuleFor(x => x.CentroCustoIdCentroCusto)
+        RuleFor(x => x.CentroCustoId)
             .GreaterThan(0).WithMessage("ID do centro de custo deve ser maior que zero");
     }
 }
@@ -29,10 +29,10 @@ public class CriarRegistroContabilValidator : AbstractValidator<CriarRegistroCon
             .GreaterThan(0).WithMessage("Valor deve ser maior que zero")
             .LessThanOrEqualTo(999999.99m).WithMessage("Valor não pode ser maior que 999.999,99");
 
-        RuleFor(x => x.ContaIdConta)
+        RuleFor(x => x.ContaId)
             .GreaterThan(0).WithMessage("ID da conta deve ser maior que zero");
 
-        RuleFor(x => x.CentroCustoIdCentroCusto)
+        RuleFor(x => x.CentroCustoId)
             .GreaterThan(0).WithMessage("ID do centro de custo deve ser maior que zero");
     }
 }
@@ -46,10 +46,10 @@ public class AtualizarRegistroContabilValidator : AbstractValidator<AtualizarReg
             .GreaterThan(0).WithMessage("Valor deve ser maior que zero")
             .LessThanOrEqualTo(999999.99m).WithMessage("Valor não pode ser maior que 999.999,99");
 
-        RuleFor(x => x.ContaIdConta)
+        RuleFor(x => x.ContaId)
             .GreaterThan(0).WithMessage("ID da conta deve ser maior que zero");
 
-        RuleFor(x => x.CentroCustoIdCentroCusto)
+        RuleFor(x => x.CentroCustoId)
             .GreaterThan(0).WithMessage("ID do centro de custo deve ser maior que zero");
     }
 }
