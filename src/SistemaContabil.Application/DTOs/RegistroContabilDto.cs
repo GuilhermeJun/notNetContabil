@@ -23,13 +23,13 @@ public class RegistroContabilDto
     /// Identificador da conta associada
     /// </summary>
     [Required(ErrorMessage = "ID da conta é obrigatório")]
-    public int ContaIdConta { get; set; }
+    public int ContaId { get; set; }
 
     /// <summary>
     /// Identificador do centro de custo associado
     /// </summary>
     [Required(ErrorMessage = "ID do centro de custo é obrigatório")]
-    public int CentroCustoIdCentroCusto { get; set; }
+    public int CentroCustoId { get; set; }
 
     /// <summary>
     /// Nome da conta associada
