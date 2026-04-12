@@ -16,7 +16,7 @@ public class RegistroContabil
     public int ContaIdConta { get; set; }
 
     [Required]
-    public int CentroCustoIdCentroCusto { get; set; }
+    public int CentroCustoId { get; set; }
 
     public DateTime DataCriacao { get; set; } = DateTime.Now;
 
@@ -25,7 +25,7 @@ public class RegistroContabil
     [ForeignKey(nameof(ContaIdConta))]
     public virtual Conta Conta { get; set; } = null!;
 
-    [ForeignKey(nameof(CentroCustoIdCentroCusto))]
+    [ForeignKey(nameof(CentroCustoId))]
     public virtual CentroCusto CentroCusto { get; set; } = null!;
 
     public virtual ICollection<Vendas> Vendas { get; set; } = new List<Vendas>();
@@ -37,7 +37,7 @@ public class RegistroContabil
         return Valor > 0 && 
                Valor <= 999999.99m &&
                ContaIdConta > 0 &&
-               CentroCustoIdCentroCusto > 0;
+               CentroCustoId > 0;
     }
 
     /// Atualiza o valor do registro contábil
@@ -75,13 +75,13 @@ public class RegistroContabil
         if (centroCustoId <= 0)
             throw new ArgumentException("ID do centro de custo deve ser maior que zero", nameof(centroCustoId));
 
-        CentroCustoIdCentroCusto = centroCustoId;
+        CentroCustoId = centroCustoId;
         DataAtualizacao = DateTime.Now;
     }
 
     /// Retorna uma descrição resumida do registro
     public string GetDescricao()
     {
-        return $"Registro: {IdRegCont} - Valor: {Valor:C} - Conta: {ContaIdConta} - Centro: {CentroCustoIdCentroCusto}";
+        return $"Registro: {IdRegCont} - Valor: {Valor:C} - Conta: {ContaIdConta} - Centro: {CentroCustoId}";
     }
 }

@@ -49,7 +49,7 @@ public class RegistroContabilAppService : IRegistroContabilAppService
             registros = registros.Where(r => r.ContaIdConta == filtro.ContaId.Value);
             
         if (filtro.CentroCustoId.HasValue)
-            registros = registros.Where(r => r.CentroCustoIdCentroCusto == filtro.CentroCustoId.Value);
+            registros = registros.Where(r => r.CentroCustoId == filtro.CentroCustoId.Value);
             
         if (filtro.ValorMin.HasValue)
             registros = registros.Where(r => r.Valor >= filtro.ValorMin.Value);
@@ -126,7 +126,7 @@ public class RegistroContabilAppService : IRegistroContabilAppService
             registros = registros.Where(r => r.ContaIdConta == filtro.ContaId.Value);
             
         if (filtro.CentroCustoId.HasValue)
-            registros = registros.Where(r => r.CentroCustoIdCentroCusto == filtro.CentroCustoId.Value);
+            registros = registros.Where(r => r.CentroCustoId == filtro.CentroCustoId.Value);
             
         if (filtro.ValorMin.HasValue)
             registros = registros.Where(r => r.Valor >= filtro.ValorMin.Value);

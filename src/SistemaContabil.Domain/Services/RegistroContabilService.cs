@@ -39,7 +39,7 @@ public class RegistroContabilService : IRegistroContabilService
         {
             Valor = valor,
             ContaIdConta = contaId,
-            CentroCustoIdCentroCusto = centroCustoId
+            CentroCustoId = centroCustoId
         };
 
         return await _repository.AdicionarAsync(registro);
@@ -66,7 +66,7 @@ public class RegistroContabilService : IRegistroContabilService
 
         registro.Valor = valor;
         registro.ContaIdConta = contaId;
-        registro.CentroCustoIdCentroCusto = centroCustoId;
+        registro.CentroCustoId = centroCustoId;
 
         return await _repository.AtualizarAsync(registro);
     }

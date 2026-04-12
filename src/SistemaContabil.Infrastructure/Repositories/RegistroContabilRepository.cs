@@ -26,7 +26,7 @@ public class RegistroContabilRepository : Repository<RegistroContabil>, IRegistr
         return await _dbSet
             .Include(rc => rc.Conta)
             .Include(rc => rc.CentroCusto)
-            .Where(rc => rc.CentroCustoIdCentroCusto == centroCustoId)
+            .Where(rc => rc.CentroCustoId == centroCustoId)
             .OrderByDescending(rc => rc.DataCriacao)
             .ToListAsync();
     }
@@ -78,7 +78,7 @@ public class RegistroContabilRepository : Repository<RegistroContabil>, IRegistr
     public async Task<decimal> GetTotalByCentroCustoAsync(int centroCustoId)
     {
         return await _dbSet
-            .Where(rc => rc.CentroCustoIdCentroCusto == centroCustoId)
+            .Where(rc => rc.CentroCustoId == centroCustoId)
             .SumAsync(rc => rc.Valor);
     }
 
@@ -225,7 +225,7 @@ public class RegistroContabilRepository : Repository<RegistroContabil>, IRegistr
 
         if (centroCustoId.HasValue)
         {
-            query = query.Where(rc => rc.CentroCustoIdCentroCusto == centroCustoId.Value);
+            query = query.Where(rc => rc.CentroCustoId == centroCustoId.Value);
         }
 
         if (dataInicio.HasValue)
@@ -267,8 +267,8 @@ public class RegistroContabilRepository : Repository<RegistroContabil>, IRegistr
                 ? query.OrderByDescending(rc => rc.ContaIdConta)
                 : query.OrderBy(rc => rc.ContaIdConta),
             "centrocustoid" => isDescending
-                ? query.OrderByDescending(rc => rc.CentroCustoIdCentroCusto)
-                : query.OrderBy(rc => rc.CentroCustoIdCentroCusto),
+                ? query.OrderByDescending(rc => rc.CentroCustoId)
+                : query.OrderBy(rc => rc.CentroCustoId),
             "id" or "idregcont" => isDescending
                 ? query.OrderByDescending(rc => rc.IdRegCont)
                 : query.OrderBy(rc => rc.IdRegCont),
