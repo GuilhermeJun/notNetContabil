@@ -105,8 +105,8 @@ public class RegistroContabilController : Controller
         var dto = new AtualizarRegistroContabilDto
         {
             Valor = registro.Valor,
-            ContaIdConta = registro.ContaIdConta,
-            CentroCustoIdCentroCusto = registro.CentroCustoIdCentroCusto
+            ContaId = registro.ContaId,
+            CentroCustoId = registro.CentroCustoId
         };
 
         await LoadSelectLists();
