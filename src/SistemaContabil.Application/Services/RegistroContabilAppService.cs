@@ -46,7 +46,7 @@ public class RegistroContabilAppService : IRegistroContabilAppService
         
         // Aplicar filtros
         if (filtro.ContaId.HasValue)
-            registros = registros.Where(r => r.ContaIdConta == filtro.ContaId.Value);
+            registros = registros.Where(r => r.ContaId == filtro.ContaId.Value);
             
         if (filtro.CentroCustoId.HasValue)
             registros = registros.Where(r => r.CentroCustoId == filtro.CentroCustoId.Value);
@@ -80,13 +80,13 @@ public class RegistroContabilAppService : IRegistroContabilAppService
 
     public async Task<RegistroContabilDto> CriarAsync(CriarRegistroContabilDto dto)
     {
-        var registro = await _registroService.CriarAsync(dto.Valor, dto.ContaIdConta, dto.CentroCustoIdCentroCusto);
+        var registro = await _registroService.CriarAsync(dto.Valor, dto.ContaId, dto.CentroCustoId);
         return _mapper.Map<RegistroContabilDto>(registro);
     }
 
     public async Task<RegistroContabilDto> AtualizarAsync(int id, AtualizarRegistroContabilDto dto)
     {
-        var registro = await _registroService.AtualizarAsync(id, dto.Valor, dto.ContaIdConta, dto.CentroCustoIdCentroCusto);
+        var registro = await _registroService.AtualizarAsync(id, dto.Valor, dto.ContaId, dto.CentroCustoId);
         return _mapper.Map<RegistroContabilDto>(registro);
     }
 
@@ -123,7 +123,7 @@ public class RegistroContabilAppService : IRegistroContabilAppService
         
         // Aplicar filtros
         if (filtro.ContaId.HasValue)
-            registros = registros.Where(r => r.ContaIdConta == filtro.ContaId.Value);
+            registros = registros.Where(r => r.ContaId == filtro.ContaId.Value);
             
         if (filtro.CentroCustoId.HasValue)
             registros = registros.Where(r => r.CentroCustoId == filtro.CentroCustoId.Value);

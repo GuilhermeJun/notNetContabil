@@ -16,7 +16,7 @@ public class RegistroContabilRepository : Repository<RegistroContabil>, IRegistr
         return await _dbSet
             .Include(rc => rc.Conta)
             .Include(rc => rc.CentroCusto)
-            .Where(rc => rc.ContaIdConta == contaId)
+            .Where(rc => rc.ContaId == contaId)
             .OrderByDescending(rc => rc.DataCriacao)
             .ToListAsync();
     }
@@ -71,7 +71,7 @@ public class RegistroContabilRepository : Repository<RegistroContabil>, IRegistr
     public async Task<decimal> GetTotalByContaAsync(int contaId)
     {
         return await _dbSet
-            .Where(rc => rc.ContaIdConta == contaId)
+            .Where(rc => rc.ContaId == contaId)
             .SumAsync(rc => rc.Valor);
     }
 
@@ -220,7 +220,7 @@ public class RegistroContabilRepository : Repository<RegistroContabil>, IRegistr
 
         if (contaId.HasValue)
         {
-            query = query.Where(rc => rc.ContaIdConta == contaId.Value);
+            query = query.Where(rc => rc.ContaId == contaId.Value);
         }
 
         if (centroCustoId.HasValue)
@@ -264,8 +264,8 @@ public class RegistroContabilRepository : Repository<RegistroContabil>, IRegistr
                 ? query.OrderByDescending(rc => rc.DataCriacao)
                 : query.OrderBy(rc => rc.DataCriacao),
             "contaid" => isDescending
-                ? query.OrderByDescending(rc => rc.ContaIdConta)
-                : query.OrderBy(rc => rc.ContaIdConta),
+                ? query.OrderByDescending(rc => rc.ContaId)
+                : query.OrderBy(rc => rc.ContaId),
             "centrocustoid" => isDescending
                 ? query.OrderByDescending(rc => rc.CentroCustoId)
                 : query.OrderBy(rc => rc.CentroCustoId),

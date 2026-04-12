@@ -38,7 +38,7 @@ public class RegistroContabilService : IRegistroContabilService
         var registro = new RegistroContabil
         {
             Valor = valor,
-            ContaIdConta = contaId,
+            ContaId = contaId,
             CentroCustoId = centroCustoId
         };
 
@@ -65,7 +65,7 @@ public class RegistroContabilService : IRegistroContabilService
             throw new ArgumentException($"Centro de custo com ID {centroCustoId} não encontrado", nameof(centroCustoId));
 
         registro.Valor = valor;
-        registro.ContaIdConta = contaId;
+        registro.ContaId = contaId;
         registro.CentroCustoId = centroCustoId;
 
         return await _repository.AtualizarAsync(registro);

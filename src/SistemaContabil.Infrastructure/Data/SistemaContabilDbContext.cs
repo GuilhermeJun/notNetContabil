@@ -73,7 +73,7 @@ public class SistemaContabilDbContext : DbContext
             // Relacionamento com registros contábeis
             entity.HasMany(e => e.RegistrosContabeis)
                 .WithOne(e => e.Conta)
-                .HasForeignKey(e => e.ContaIdConta)
+                .HasForeignKey(e => e.ContaId)
                 .OnDelete(DeleteBehavior.Restrict);
         });
 
@@ -89,7 +89,7 @@ public class SistemaContabilDbContext : DbContext
                 .HasColumnName("VALOR")
                 .HasColumnType("NUMBER(9,2)")
                 .IsRequired();
-            entity.Property(e => e.ContaIdConta)
+            entity.Property(e => e.ContaId)
                 .HasColumnName("CONTA_CONTABIL_ID_CONTA")
                 .IsRequired();
             entity.Property(e => e.CentroCustoId)
@@ -106,7 +106,7 @@ public class SistemaContabilDbContext : DbContext
             // Relacionamentos
             entity.HasOne(e => e.Conta)
                 .WithMany(e => e.RegistrosContabeis)
-                .HasForeignKey(e => e.ContaIdConta)
+                .HasForeignKey(e => e.ContaId)
                 .HasPrincipalKey(c => c.IdContaContabil)
                 .OnDelete(DeleteBehavior.Restrict);
 
@@ -209,7 +209,7 @@ public class SistemaContabilDbContext : DbContext
 
         // Configuração de índices para performance
         modelBuilder.Entity<RegistroContabil>()
-            .HasIndex(e => e.ContaIdConta)
+            .HasIndex(e => e.ContaId)
             .HasDatabaseName("IX_REG_CONT_CONTA");
 
         modelBuilder.Entity<RegistroContabil>()
