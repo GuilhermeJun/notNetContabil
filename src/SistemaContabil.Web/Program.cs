@@ -14,14 +14,6 @@ using SistemaContabil.Web.Middleware;
 
 var builder = WebApplication.CreateBuilder(args);
 
-/*
-#region Database
-builder.Services.AddDbContext<SistemaContabilDbContext>(
-    options => options.UseInMemoryDatabase("TodoDb"));
-builder.Services.AddDatabaseDeveloperPageExceptionFilter();
-#endregion
-*/
-
 // Configuração do Serilog (logging estruturado)
 Log.Logger = new LoggerConfiguration()
     // Nível mínimo aplicável ao logger
@@ -99,32 +91,6 @@ builder.Services.AddOpenApi(options =>
 }
 );
 
-/*
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen(c =>
-{
-    c.SwaggerDoc("v1", new OpenApiInfo
-    {
-        Title = "Sistema Contábil API",
-        Version = "v1",
-        Description = "API para sistema contábil com Oracle Database",
-        Contact = new OpenApiContact
-        {
-            Name = "FIAP - Sistema Contábil",
-            Email = "contato@fiap.com.br"
-        }
-    });
-
-    // Incluir comentários XML
-    var xmlFile = $"{System.Reflection.Assembly.GetExecutingAssembly().GetName().Name}.xml";
-    var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
-    if (File.Exists(xmlPath))
-    {
-        c.IncludeXmlComments(xmlPath);
-    }
-});
-*/
-
 // Configuração de CORS
 builder.Services.AddCors(options =>
 {
@@ -146,21 +112,6 @@ builder.Services.AddProblemDetails();
 builder.Services.AddProblemDetails();
 
 var app = builder.Build();
-
-// Configure the HTTP request pipeline.
-// Swagger sempre disponível para facilitar testes
-/*
-app.UseSwagger();
-app.UseSwaggerUI(c =>
-{
-    c.SwaggerEndpoint("/swagger/v1/swagger.json", "Sistema Contábil API v1");
-    c.RoutePrefix = "swagger"; // Swagger UI em /swagger
-    c.DisplayRequestDuration();
-    c.EnableDeepLinking();
-    c.EnableFilter();
-    c.ShowExtensions();
-});
-*/
 
 // Middleware de tratamento de erros
 app.UseMiddleware<ExceptionHandlingMiddleware>();

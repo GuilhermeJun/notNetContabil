@@ -16,7 +16,7 @@ public class VendasRepository : Repository<Vendas>, IVendasRepository
         return await _dbSet
             .Include(v => v.Cliente)
             .Include(v => v.RegistroContabil)
-            .Where(v => v.ClienteIdCliente == clienteId)
+            .Where(v => v.ClienteId == clienteId)
             .OrderByDescending(v => v.IdVendas)
             .ToListAsync();
     }
@@ -26,7 +26,7 @@ public class VendasRepository : Repository<Vendas>, IVendasRepository
         return await _dbSet
             .Include(v => v.Cliente)
             .Include(v => v.RegistroContabil)
-            .Where(v => v.RegContIdRegCont == regContId)
+            .Where(v => v.RegContId == regContId)
             .OrderByDescending(v => v.IdVendas)
             .ToListAsync();
     }
@@ -48,17 +48,17 @@ public class VendasRepository : Repository<Vendas>, IVendasRepository
         // Aplicar filtros
         if (clienteId.HasValue)
         {
-            query = query.Where(v => v.ClienteIdCliente == clienteId.Value);
+            query = query.Where(v => v.ClienteId == clienteId.Value);
         }
 
         if (regContId.HasValue)
         {
-            query = query.Where(v => v.RegContIdRegCont == regContId.Value);
+            query = query.Where(v => v.RegContId == regContId.Value);
         }
 
         if (vendaEventoId.HasValue)
         {
-            query = query.Where(v => v.VendaEventoIdEvento == vendaEventoId.Value);
+            query = query.Where(v => v.VendaEventoId == vendaEventoId.Value);
         }
 
         // Contar total
@@ -94,11 +94,11 @@ public class VendasRepository : Repository<Vendas>, IVendasRepository
                 ? query.OrderByDescending(v => v.IdVendas)
                 : query.OrderBy(v => v.IdVendas),
             "clienteid" or "cliente" => isDescending
-                ? query.OrderByDescending(v => v.ClienteIdCliente)
-                : query.OrderBy(v => v.ClienteIdCliente),
+                ? query.OrderByDescending(v => v.ClienteId)
+                : query.OrderBy(v => v.ClienteId),
             "regcontid" => isDescending
-                ? query.OrderByDescending(v => v.RegContIdRegCont)
-                : query.OrderBy(v => v.RegContIdRegCont),
+                ? query.OrderByDescending(v => v.RegContId)
+                : query.OrderBy(v => v.RegContId),
             _ => query.OrderByDescending(v => v.IdVendas)
         };
     }

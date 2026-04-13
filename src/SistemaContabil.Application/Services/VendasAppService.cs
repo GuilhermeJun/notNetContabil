@@ -36,9 +36,9 @@ public class VendasAppService : IVendasAppService
     public async Task<VendasDto> CriarAsync(CriarVendasDto dto)
     {
         var venda = await _vendasService.CriarAsync(
-            dto.ClienteIdCliente,
-            dto.RegContIdRegCont,
-            dto.VendaEventoIdEvento);
+            dto.ClienteId,
+            dto.RegContId,
+            dto.VendaEventoId);
         return _mapper.Map<VendasDto>(venda);
     }
 
@@ -46,9 +46,9 @@ public class VendasAppService : IVendasAppService
     {
         var venda = await _vendasService.AtualizarAsync(
             id,
-            dto.ClienteIdCliente,
-            dto.RegContIdRegCont,
-            dto.VendaEventoIdEvento);
+            dto.ClienteId,
+            dto.RegContId,
+            dto.VendaEventoId);
         return _mapper.Map<VendasDto>(venda);
     }
 

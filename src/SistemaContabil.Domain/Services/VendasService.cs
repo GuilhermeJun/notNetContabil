@@ -40,9 +40,9 @@ public class VendasService : IVendasService
 
         var venda = new Vendas
         {
-            ClienteIdCliente = clienteId,
-            RegContIdRegCont = regContId,
-            VendaEventoIdEvento = vendaEventoId
+            ClienteId = clienteId,
+            RegContId = regContId,
+            VendaEventoId = vendaEventoId
         };
 
         return await _repository.AdicionarAsync(venda);
@@ -70,9 +70,9 @@ public class VendasService : IVendasService
         if (regCont == null)
             throw new InvalidOperationException($"Registro contábil com ID {regContId} não encontrado");
 
-        venda.ClienteIdCliente = clienteId;
-        venda.RegContIdRegCont = regContId;
-        venda.VendaEventoIdEvento = vendaEventoId;
+        venda.ClienteId = clienteId;
+        venda.RegContId = regContId;
+        venda.VendaEventoId = vendaEventoId;
 
         return await _repository.AtualizarAsync(venda);
     }

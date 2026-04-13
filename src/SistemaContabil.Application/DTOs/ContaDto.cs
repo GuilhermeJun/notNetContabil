@@ -29,7 +29,7 @@ public class ContaDto
     /// <summary>
     /// ID do cliente associado (opcional)
     /// </summary>
-    public int? ClienteIdCliente { get; set; }
+    public int? ClienteId { get; set; }
 
     /// <summary>
     /// Descrição do tipo da conta
@@ -69,7 +69,7 @@ public class CriarContaDto
     /// <summary>
     /// ID do cliente associado (opcional)
     /// </summary>
-    public int? ClienteIdCliente { get; set; }
+    public int? ClienteId { get; set; }
 }
 
 /// <summary>
@@ -94,7 +94,7 @@ public class AtualizarContaDto
     /// <summary>
     /// ID do cliente associado (opcional)
     /// </summary>
-    public int? ClienteIdCliente { get; set; }
+    public int? ClienteId { get; set; }
 }
 
 /// <summary>
@@ -120,7 +120,7 @@ public class ContaDetalhesDto
     /// <summary>
     /// ID do cliente associado (opcional)
     /// </summary>
-    public int? ClienteIdCliente { get; set; }
+    public int? ClienteId { get; set; }
 
     /// <summary>
     /// Descrição do tipo da conta
