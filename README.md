@@ -2,7 +2,7 @@
 
 ## 📋 Visão Geral
 
-Sistema Contábil desenvolvido em .NET 8 com arquitetura Clean Architecture, utilizando Oracle Database como banco de dados principal. O sistema permite o gerenciamento completo de centros de custo, contas contábeis, registros contábeis, clientes e vendas, com API REST completa, busca paginada com filtros, HATEOAS e interface web MVC.
+Sistema Contábil desenvolvido em .NET 9 com arquitetura Clean Architecture, utilizando Oracle Database como banco de dados principal. O sistema permite o gerenciamento completo de centros de custo, contas contábeis, registros contábeis, clientes e vendas, com API REST completa, busca paginada com filtros, HATEOAS e interface web MVC.
 
 ## 🏗️ Arquitetura
 
@@ -19,7 +19,7 @@ Sistema Contábil desenvolvido em .NET 8 com arquitetura Clean Architecture, uti
 - **AutoMapper** - Mapeamento de objetos
 - **FluentValidation** - Validações
 - **Serilog** - Logging
-- **Swagger/OpenAPI** - Documentação da API
+- **Scalar/OpenAPI** - Documentação da API
 - **ASP.NET Core MVC** - Interface web
 - **Bootstrap 5** - Framework CSS
 - **Minimal API** - Endpoints de busca paginada
