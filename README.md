@@ -1,13 +1,8 @@
-ACESSE http://140.238.179.84:8082/Home/Index
-
-
 # Sistema Contábil - Oracle FIAP Challenge
 
 ## 📋 Visão Geral
 
 Sistema Contábil desenvolvido em .NET 8 com arquitetura Clean Architecture, utilizando Oracle Database como banco de dados principal. O sistema permite o gerenciamento completo de centros de custo, contas contábeis, registros contábeis, clientes e vendas, com API REST completa, busca paginada com filtros, HATEOAS e interface web MVC.
-
-**Versão**: 2.0 - Sprint 2 Completa ✅
 
 ## 🏗️ Arquitetura
 
@@ -18,7 +13,7 @@ Sistema Contábil desenvolvido em .NET 8 com arquitetura Clean Architecture, uti
 - **Web Layer**: Controllers, middleware e configurações
 
 ### Tecnologias Utilizadas
-- **.NET 8** - Framework principal
+- **.NET 9** - Framework principal
 - **Oracle Database** - Banco de dados (Host: 140.238.179.84:1521/FREEPDB1)
 - **Entity Framework Core** - ORM
 - **AutoMapper** - Mapeamento de objetos
@@ -169,18 +164,9 @@ Sistema Contábil desenvolvido em .NET 8 com arquitetura Clean Architecture, uti
 ## 🚀 Como Executar
 
 ### Pré-requisitos
-- .NET 8 SDK
+- .NET 9 SDK
 - Oracle Database (FIAP)
 - Oracle SQL Developer (opcional)
-
-### 1. Configuração do Banco de Dados
-
-**Conexão Oracle:**
-- **Host**: 140.238.179.84
-- **Porta**: 1521
-- **Service Name**: FREEPDB1
-- **Usuário**: appuser
-- **Senha**: AppPass#2025
 
 Execute o script SQL no Oracle:
 ```sql
@@ -188,14 +174,14 @@ Execute o script SQL no Oracle:
 -- Este script cria todas as tabelas, sequências, triggers e índices
 ```
 
-### 2. Configuração da Aplicação
+### Configuração da Aplicação
 
 A conexão do banco já está configurada nos arquivos:
 - `src/SistemaContabil.Web/appsettings.json`
 - `src/SistemaContabil.Web/appsettings.Development.json`
 - `src/SistemaContabil.Infrastructure/Configuration/DatabaseConfiguration.cs`
 
-### 3. Executar a Aplicação
+### Executar a Aplicação
 
 ```bash
 cd src/SistemaContabil.Web
@@ -204,14 +190,14 @@ dotnet build
 dotnet run
 ```
 
-### 4. Acessar a Aplicação
+### Acessar a Aplicação
 
 - **Interface Web MVC**: http://localhost:5000/Home/Index
 - **Swagger UI**: http://localhost:5000/swagger
 - **Health Check**: http://localhost:5000/health
 - **API Root**: http://localhost:5000/api
 
-### 5. Testar a Aplicação
+### Testar a Aplicação
 
 ```bash
 # Execute o teste completo:
@@ -226,7 +212,7 @@ test-application.bat
 - `POST /api/CentroCusto` - Criar novo
 - `PUT /api/CentroCusto/{id}` - Atualizar
 - `DELETE /api/CentroCusto/{id}` - Remover
-- `GET /api/search/centrocusto` - Busca paginada com filtros ⭐ **NOVO**
+- `GET /api/search/centrocusto` - Busca paginada com filtros
 
 ### Contas Contábeis
 - `GET /api/Conta` - Listar todas
@@ -234,7 +220,7 @@ test-application.bat
 - `POST /api/Conta` - Criar nova
 - `PUT /api/Conta/{id}` - Atualizar
 - `DELETE /api/Conta/{id}` - Remover
-- `GET /api/search/conta` - Busca paginada com filtros ⭐ **NOVO**
+- `GET /api/search/conta` - Busca paginada com filtros
 
 ### Registros Contábeis
 - `GET /api/RegistroContabil` - Listar todos
@@ -242,9 +228,9 @@ test-application.bat
 - `POST /api/RegistroContabil` - Criar novo
 - `PUT /api/RegistroContabil/{id}` - Atualizar
 - `DELETE /api/RegistroContabil/{id}` - Remover
-- `GET /api/search/registrocontabil` - Busca paginada com filtros ⭐ **NOVO**
+- `GET /api/search/registrocontabil` - Busca paginada com filtros
 
-### Clientes ⭐ **NOVO**
+### Clientes
 - `GET /api/Cliente` - Listar todos
 - `GET /api/Cliente/{id}` - Buscar por ID
 - `POST /api/Cliente` - Criar novo
@@ -252,12 +238,11 @@ test-application.bat
 - `DELETE /api/Cliente/{id}` - Remover
 - `GET /api/search/cliente` - Busca paginada com filtros
 
-### Vendas ⭐ **NOVO**
+### Vendas
 - `GET /api/Vendas` - Listar todas
 - `GET /api/Vendas/{id}` - Buscar por ID
 - `POST /api/Vendas` - Criar nova
 - `PUT /api/Vendas/{id}` - Atualizar
-- `DELETE /api/Vendas/{id}` - Remover
 - `GET /api/search/vendas` - Busca paginada com filtros
 
 ## 🔍 Endpoints de Busca Paginada (Minimal API)
@@ -312,8 +297,8 @@ A aplicação inclui uma interface web completa com:
 - **Centros de Custo**: CRUD completo
 - **Contas Contábeis**: CRUD completo
 - **Registros Contábeis**: CRUD completo (com select lists)
-- **Clientes**: CRUD completo ⭐ **NOVO**
-- **Vendas**: CRUD completo ⭐ **NOVO**
+- **Clientes**: CRUD completo
+- **Vendas**: CRUD
 
 ### Funcionalidades:
 - ✅ Layout responsivo com Bootstrap 5
@@ -324,7 +309,7 @@ A aplicação inclui uma interface web completa com:
 
 ## 🔍 URLs Importantes
 
-- **Interface Web MVC**: http://localhost:5000 ⭐ **NOVO**
+- **Interface Web MVC**: http://localhost:5000
 - **Swagger UI**: http://localhost:5000/swagger
 - **Health Check**: http://localhost:5000/health
 - **API Root**: http://localhost:5000/api
@@ -364,10 +349,10 @@ A aplicação inclui uma interface web completa com:
 
 ### Tabelas
 - **CENTRO_CUSTO**: Centros de custo da empresa
-- **CONTA_CONTABIL**: Contas contábeis (Receita/Despesa) ⚠️ **Schema atualizado**
-- **REG_CONT**: Registros contábeis ⚠️ **Schema atualizado**
-- **CLIENTE**: Clientes do sistema ⭐ **NOVO**
-- **VENDAS**: Vendas realizadas ⭐ **NOVO**
+- **CONTA_CONTABIL**: Contas contábeis (Receita/Despesa)
+- **REG_CONT**: Registros contábeis
+- **CLIENTE**: Clientes do sistema 
+- **VENDAS**: Vendas realizadas
 
 ### Relacionamentos
 - Registro Contábil (REG_CONT) → Conta Contábil (CONTA_CONTABIL) (FK)
@@ -421,7 +406,7 @@ A aplicação inclui uma interface web completa com:
 
 ## 📝 Documentação
 
-### Swagger/OpenAPI
+### Scalar/OpenAPI
 - Documentação automática da API
 - Interface interativa para testes
 - Exemplos de requisições/respostas
@@ -443,79 +428,8 @@ A aplicação inclui uma interface web completa com:
 - Validação de performance
 - Monitoramento de recursos
 
-## 📋 Checklist de Implementação - Sprint 2
-
-### ✅ Sprint 1 - Concluído
-- [x] Estrutura do projeto
-- [x] Camada de domínio
-- [x] Camada de aplicação
-- [x] Camada de infraestrutura
-- [x] Camada web básica
-- [x] Configuração do banco
-- [x] Documentação da API
-- [x] Logs e monitoramento
-
-### ✅ Sprint 2 - Concluído
-- [x] **Atualização do Schema do Banco**
-  - [x] Migração para CONTA_CONTABIL e REG_CONT
-  - [x] Adição das tabelas CLIENTE e VENDAS
-  - [x] Atualização de relacionamentos e sequências
-  
-- [x] **Entidades e DTOs**
-  - [x] Atualização de Conta (Receita/Despesa)
-  - [x] Atualização de RegistroContabil
-  - [x] Criação de entidades Cliente e Vendas
-  - [x] DTOs de busca paginada (PagedResultDto, SearchRequestDto)
-  - [x] DTOs de filtro para cada entidade
-
-- [x] **Repositórios e Services**
-  - [x] Repositórios de Cliente e Vendas
-  - [x] Métodos de busca paginada em todos os repositórios
-  - [x] Services de domínio para Cliente e Vendas
-  - [x] AppServices para Cliente e Vendas
-
-- [x] **API REST - Controllers**
-  - [x] Controllers API para Cliente e Vendas
-  - [x] Melhorias com ProblemDetails
-  - [x] Validações robustas
-  - [x] Documentação Swagger completa
-
-- [x] **Minimal API - Busca Paginada**
-  - [x] Endpoints /api/search/{entidade}
-  - [x] Suporte a paginação, ordenação e filtros
-  - [x] Implementação HATEOAS
-
-- [x] **Frontend MVC**
-  - [x] Layout principal com Bootstrap 5
-  - [x] Controllers MVC para todas as entidades
-  - [x] Views completas (Index, Create, Edit, Details, Delete)
-  - [x] Validação client-side
-  - [x] Navegação responsiva
-
-- [x] **HATEOAS**
-  - [x] Helper para geração de links
-  - [x] Links em respostas paginadas
-  - [x] Links de navegação (first, prev, next, last)
-
-- [x] **Documentação**
-  - [x] README atualizado
-  - [x] Documentação de novos endpoints
-  - [x] Guia de uso do HATEOAS
-
-### 🔄 Próximos Passos
-- [ ] Testes unitários
-- [ ] Testes de integração
-- [ ] Testes end-to-end do frontend MVC
-
-
 ### Padrões de Código
 - Clean Architecture
 - SOLID principles
 - Repository pattern
 - Dependency Injection
-
-
----
-
-**Sistema Contábil - Oracle FIAP Challenge**  
-Desenvolvido com .NET 8 e Clean Architecture
