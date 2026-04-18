@@ -169,7 +169,7 @@ public class SistemaContabilDbContext : DbContext
 
             entity.HasMany(e => e.Vendas)
                 .WithOne(v => v.Cliente)
-                .HasForeignKey(v => v.ClienteIdCliente)
+                .HasForeignKey(v => v.ClienteId)
                 .OnDelete(DeleteBehavior.Restrict);
         });
 
@@ -181,29 +181,29 @@ public class SistemaContabilDbContext : DbContext
             entity.Property(e => e.IdVendas)
                 .HasColumnName("ID_VENDAS")
                 .ValueGeneratedOnAdd();
-            entity.Property(e => e.ClienteIdCliente)
+            entity.Property(e => e.ClienteId)
                 .HasColumnName("CLIENTE_ID_CLIENTE")
                 .IsRequired();
-            entity.Property(e => e.RegContIdRegCont)
+            entity.Property(e => e.RegContId)
                 .HasColumnName("REG_CONT_ID_REG_CONT")
                 .IsRequired();
-            entity.Property(e => e.VendaEventoIdEvento)
+            entity.Property(e => e.VendaEventoId)
                 .HasColumnName("VENDA_EVENTO_ID_EVENTO");
 
             // Índices únicos
-            entity.HasIndex(e => e.VendaEventoIdEvento)
+            entity.HasIndex(e => e.VendaEventoId)
                 .IsUnique()
                 .HasDatabaseName("VENDA_ID_EVENTO_UN");
 
             // Relacionamentos
             entity.HasOne(e => e.Cliente)
                 .WithMany(c => c.Vendas)
-                .HasForeignKey(e => e.ClienteIdCliente)
+                .HasForeignKey(e => e.ClienteId)
                 .OnDelete(DeleteBehavior.Restrict);
 
             entity.HasOne(e => e.RegistroContabil)
                 .WithMany(r => r.Vendas)
-                .HasForeignKey(e => e.RegContIdRegCont)
+                .HasForeignKey(e => e.RegContId)
                 .OnDelete(DeleteBehavior.Restrict);
         });
 
@@ -221,11 +221,11 @@ public class SistemaContabilDbContext : DbContext
             .HasDatabaseName("IX_CONTA_CLIENTE");
 
         modelBuilder.Entity<Vendas>()
-            .HasIndex(e => e.ClienteIdCliente)
+            .HasIndex(e => e.ClienteId)
             .HasDatabaseName("IX_VENDAS_CLIENTE");
 
         modelBuilder.Entity<Vendas>()
-            .HasIndex(e => e.RegContIdRegCont)
+            .HasIndex(e => e.RegContId)
             .HasDatabaseName("IX_VENDAS_REG_CONT");
 
         // Configuração de sequências Oracle (conforme SQL)

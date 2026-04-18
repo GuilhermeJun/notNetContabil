@@ -107,9 +107,9 @@ public class VendasController : Controller
 
         var dto = new AtualizarVendasDto
         {
-            ClienteIdCliente = venda.ClienteIdCliente,
-            RegContIdRegCont = venda.RegContIdRegCont,
-            VendaEventoIdEvento = venda.VendaEventoIdEvento
+            ClienteId = venda.ClienteId,
+            RegContId = venda.RegContId,
+            VendaEventoId = venda.VendaEventoId
         };
 
         await LoadSelectLists();
