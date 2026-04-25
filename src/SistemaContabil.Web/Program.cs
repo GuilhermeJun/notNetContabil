@@ -16,19 +16,15 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Configuração do Serilog (logging estruturado)
 Log.Logger = new LoggerConfiguration()
-    // Nível mínimo aplicável ao logger
     .MinimumLevel.Information()
-    // Elevar nível de comentários de bibliotecas do framework para Warning
     .MinimumLevel.Override("Microsoft", LogEventLevel.Warning)
     .Enrich.FromLogContext()
     .Enrich.WithProperty("Application", "SistemaContabil")
-    // Saída estruturada para console (texto legível) e arquivo (rolling)
     .WriteTo.Console(outputTemplate: "{Timestamp:yyyy-MM-dd HH:mm:ss.fff zzz} [{Level:u3}] {Message:lj} {Properties:j}{NewLine}{Exception}")
     .WriteTo.File(
         path: "logs/sistema-contabil-.log",
         rollingInterval: RollingInterval.Day,
         outputTemplate: "{Timestamp:yyyy-MM-dd HH:mm:ss.fff zzz} [{Level:u3}] {Message:lj} {Properties:j}{NewLine}{Exception}")
-    // Permitir sobrescrever via configuration (appsettings.json)
     .ReadFrom.Configuration(builder.Configuration)
     .CreateLogger();
 
@@ -72,7 +68,7 @@ builder.Services.AddOpenApi(options =>
         {
             Title = "CoreMonitor - Sistema Contábil API",
             Version = "1.0.1",
-            Description = """API para sistema contábil com Oracle Database""",
+            Description = """API para sistema contábil com Oracle Database para pequenas empresas""",
             License = new OpenApiLicense()
             {
                 Name = "Core Monitor",
@@ -184,8 +180,6 @@ app.MapHealthChecksUI(options =>
 {
     options.UIPath = "/health-ui";
 });
-
-//app.UseRateLimiter();
 
 // Test endpoint
 app.MapGet("/", () => Results.Ok(new { 

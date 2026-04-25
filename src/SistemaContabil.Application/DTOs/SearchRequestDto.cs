@@ -1,33 +1,15 @@
 namespace SistemaContabil.Application.DTOs;
 
-/// <summary>
-/// DTO para solicitação de busca com paginação e ordenação
-/// </summary>
 public class SearchRequestDto
 {
-    /// <summary>
-    /// Número da página (baseado em 1, padrão: 1)
-    /// </summary>
     public int Page { get; set; } = 1;
 
-    /// <summary>
-    /// Tamanho da página (padrão: 10, máximo: 100)
-    /// </summary>
     public int PageSize { get; set; } = 10;
 
-    /// <summary>
-    /// Campo para ordenação
-    /// </summary>
     public string? SortBy { get; set; }
 
-    /// <summary>
-    /// Direção da ordenação (asc ou desc, padrão: asc)
-    /// </summary>
     public string SortOrder { get; set; } = "asc";
 
-    /// <summary>
-    /// Valida e ajusta os parâmetros de busca
-    /// </summary>
     public void Validate()
     {
         if (Page < 1)
@@ -47,8 +29,5 @@ public class SearchRequestDto
             SortOrder = "asc";
     }
 
-    /// <summary>
-    /// Retorna se a ordenação é descendente
-    /// </summary>
     public bool IsDescending => SortOrder?.ToLowerInvariant() == "desc";
 }

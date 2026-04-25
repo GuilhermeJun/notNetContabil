@@ -7,7 +7,6 @@ using SistemaContabil.Infrastructure.Repositories;
 
 namespace SistemaContabil.Infrastructure.Configuration;
 
-/// Configuração do banco de dados
 public static class DatabaseConfiguration
 {
     /// Strings de conexão para Oracle FIAP (múltiplas opções)
@@ -29,10 +28,6 @@ public static class DatabaseConfiguration
     /// String de conexão atual (será testada)
     public static string ConnectionString => ConnectionStrings[0]; // Começa com a primeira opção
 
-    /// Configura o Entity Framework Core para Oracle
-    /// <param name="services">Coleção de serviços</param>
-    /// <param name="configuration">Configuração da aplicação</param>
-    /// <returns>Coleção de serviços configurada</returns>
     public static IServiceCollection AddDatabaseConfiguration(
         this IServiceCollection services, 
         IConfiguration configuration)
@@ -56,9 +51,6 @@ public static class DatabaseConfiguration
         return services;
     }
 
-    /// Configura o banco de dados para desenvolvimento
-    /// <param name="services">Coleção de serviços</param>
-    /// <returns>Coleção de serviços configurada</returns>
     public static IServiceCollection AddDatabaseDevelopment(
         this IServiceCollection services)
     {
@@ -69,7 +61,6 @@ public static class DatabaseConfiguration
                 oracleOptions.CommandTimeout(30);
             });
             
-            // Configurações de desenvolvimento
             options.EnableSensitiveDataLogging();
             options.EnableDetailedErrors();
         });
