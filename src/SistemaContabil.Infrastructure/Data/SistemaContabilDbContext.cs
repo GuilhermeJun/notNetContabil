@@ -6,41 +6,15 @@ namespace SistemaContabil.Infrastructure.Data;
 public class SistemaContabilDbContext : DbContext
 {
     public SistemaContabilDbContext(DbContextOptions<SistemaContabilDbContext> options) : base(options)
-    {
-    }
-    public DbSet<CentroCusto> CentrosCusto { get; set; } = null!;
-
+    {}
     public DbSet<Conta> Contas { get; set; } = null!;
-
     public DbSet<RegistroContabil> RegistrosContabeis { get; set; } = null!;
-
-    public DbSet<Cliente> Clientes { get; set; } = null!;
-
-    public DbSet<Vendas> Vendas { get; set; } = null!;
+    public DbSet<Cliente> Clientes { get; set; }
+    public DbSet<Venda> Vendas { get; set; } = null!;
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
-
-        // Configuração da tabela CentroCusto
-        modelBuilder.Entity<CentroCusto>(entity =>
-        {
-            entity.ToTable("CENTRO_CUSTO");
-            entity.HasKey(e => e.IdCentroCusto);
-            entity.Property(e => e.IdCentroCusto)
-                .HasColumnName("ID_CENTRO_CUSTO")
-                .ValueGeneratedOnAdd();
-            entity.Property(e => e.NomeCentroCusto)
-                .HasColumnName("NOME_CENTRO_CUSTO")
-                .HasColumnType("VARCHAR2(70)")
-                .IsRequired();
-
-            // Relacionamento com registros contábeis
-            entity.HasMany(e => e.RegistrosContabeis)
-                .WithOne(e => e.CentroCusto)
-                .HasForeignKey(e => e.CentroCustoId)
-                .OnDelete(DeleteBehavior.Restrict);
-        });
 
         // Configuração da tabela Conta Contábil
         modelBuilder.Entity<Conta>(entity =>
@@ -109,11 +83,6 @@ public class SistemaContabilDbContext : DbContext
                 .HasForeignKey(e => e.ContaId)
                 .HasPrincipalKey(c => c.IdContaContabil)
                 .OnDelete(DeleteBehavior.Restrict);
-
-            entity.HasOne(e => e.CentroCusto)
-                .WithMany(e => e.RegistrosContabeis)
-                .HasForeignKey(e => e.CentroCustoId)
-                .OnDelete(DeleteBehavior.Restrict);
         });
 
         // Configuração da tabela Cliente
@@ -174,7 +143,7 @@ public class SistemaContabilDbContext : DbContext
         });
 
         // Configuração da tabela Vendas
-        modelBuilder.Entity<Vendas>(entity =>
+        modelBuilder.Entity<Venda>(entity =>
         {
             entity.ToTable("VENDAS");
             entity.HasKey(e => e.IdVendas);
@@ -220,11 +189,11 @@ public class SistemaContabilDbContext : DbContext
             .HasIndex(e => e.ClienteIdCliente)
             .HasDatabaseName("IX_CONTA_CLIENTE");
 
-        modelBuilder.Entity<Vendas>()
+        modelBuilder.Entity<Venda>()
             .HasIndex(e => e.ClienteId)
             .HasDatabaseName("IX_VENDAS_CLIENTE");
 
-        modelBuilder.Entity<Vendas>()
+        modelBuilder.Entity<Venda>()
             .HasIndex(e => e.RegContId)
             .HasDatabaseName("IX_VENDAS_REG_CONT");
 

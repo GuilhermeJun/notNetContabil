@@ -4,7 +4,6 @@ using SistemaContabil.Application.Services;
 
 namespace SistemaContabil.Web.Controllers;
 
-/// Controller para operações de Conta
 [ApiController]
 [Route("api/[controller]")]
 public class ContaController : ControllerBase

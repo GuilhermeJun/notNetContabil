@@ -7,6 +7,32 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Controllers\Mvc\**" />
+    <Compile Remove="Views\**" />
+    <Content Remove="Controllers\Mvc\**" />
+    <Content Remove="Views\**" />
+    <EmbeddedResource Remove="Controllers\Mvc\**" />
+    <EmbeddedResource Remove="Views\**" />
+    <None Remove="Controllers\Mvc\**" />
+    <None Remove="Views\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Remove="Controllers\CentroCustoController.cs" />
+    <Compile Remove="Endpoints\SearchEndpoints.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Remove="appsettings.Development.json" />
+    <Content Remove="appsettings.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="logs\sistema-contabil-20260424.log" />
+    <None Remove="logs\sistema-contabil-20260424.txt" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="AspNetCore.HealthChecks.Oracle" Version="9.0.0" />
     <PackageReference Include="AspNetCore.HealthChecks.UI" Version="9.0.0" />
     <PackageReference Include="AspNetCore.HealthChecks.UI.Client" Version="9.0.0" />
@@ -34,6 +60,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Endpoints\" />
     <Folder Include="HealthChecks\" />
     <Folder Include="logs\" />
   </ItemGroup>

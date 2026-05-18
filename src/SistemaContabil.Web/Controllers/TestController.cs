@@ -4,9 +4,6 @@ using Microsoft.Extensions.Logging;
 
 namespace SistemaContabil.Web.Controllers;
 
-/// <summary>
-/// Controller para testes de conexão
-/// </summary>
 [ApiController]
 [Route("api/[controller]")]
 public class TestController : ControllerBase
@@ -18,10 +15,6 @@ public class TestController : ControllerBase
         _logger = logger;
     }
 
-    /// <summary>
-    /// Testa todas as strings de conexão Oracle
-    /// </summary>
-    /// <returns>Resultado dos testes</returns>
     [HttpGet("connection")]
     public async Task<ActionResult<object>> TestConnection()
     {
@@ -65,10 +58,6 @@ public class TestController : ControllerBase
         }
     }
 
-    /// <summary>
-    /// Lista todas as strings de conexão disponíveis
-    /// </summary>
-    /// <returns>Lista de strings de conexão</returns>
     [HttpGet("connections")]
     public ActionResult<object> ListConnections()
     {

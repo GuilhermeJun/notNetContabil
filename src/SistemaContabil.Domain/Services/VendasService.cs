@@ -3,7 +3,6 @@ using SistemaContabil.Domain.Interfaces;
 
 namespace SistemaContabil.Domain.Services;
 
-/// Serviço de domínio para Vendas
 public class VendasService : IVendasService
 {
     private readonly IVendasRepository _repository;
@@ -20,7 +19,7 @@ public class VendasService : IVendasService
         _regContRepository = regContRepository;
     }
 
-    public async Task<Vendas> CriarAsync(int clienteId, int regContId, long? vendaEventoId = null)
+    public async Task<Venda> CriarAsync(int clienteId, int regContId, long? vendaEventoId = null)
     {
         if (clienteId <= 0)
             throw new ArgumentException("ID do cliente deve ser maior que zero", nameof(clienteId));
@@ -38,7 +37,7 @@ public class VendasService : IVendasService
         if (regCont == null)
             throw new InvalidOperationException($"Registro contábil com ID {regContId} não encontrado");
 
-        var venda = new Vendas
+        var venda = new Venda
         {
             ClienteId = clienteId,
             RegContId = regContId,
@@ -48,7 +47,7 @@ public class VendasService : IVendasService
         return await _repository.AdicionarAsync(venda);
     }
 
-    public async Task<Vendas> AtualizarAsync(int id, int clienteId, int regContId, long? vendaEventoId = null)
+    public async Task<Venda> AtualizarAsync(int id, int clienteId, int regContId, long? vendaEventoId = null)
     {
         if (clienteId <= 0)
             throw new ArgumentException("ID do cliente deve ser maior que zero", nameof(clienteId));
@@ -77,22 +76,22 @@ public class VendasService : IVendasService
         return await _repository.AtualizarAsync(venda);
     }
 
-    public async Task<Vendas?> ObterPorIdAsync(int id)
+    public async Task<Venda?> ObterPorIdAsync(int id)
     {
         return await _repository.ObterPorIdAsync(id);
     }
 
-    public async Task<IEnumerable<Vendas>> ObterTodasAsync()
+    public async Task<IEnumerable<Venda>> ObterTodasAsync()
     {
         return await _repository.ObterTodosAsync();
     }
 
-    public async Task<IEnumerable<Vendas>> ObterPorClienteAsync(int clienteId)
+    public async Task<IEnumerable<Venda>> ObterPorClienteAsync(int clienteId)
     {
         return await _repository.GetByClienteIdAsync(clienteId);
     }
 
-    public async Task<IEnumerable<Vendas>> ObterPorRegContAsync(int regContId)
+    public async Task<IEnumerable<Venda>> ObterPorRegContAsync(int regContId)
     {
         return await _repository.GetByRegContIdAsync(regContId);
     }

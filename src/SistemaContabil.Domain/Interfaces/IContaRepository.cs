@@ -1,70 +1,16 @@
 using SistemaContabil.Domain.Entities;
 
 namespace SistemaContabil.Domain.Interfaces;
-
-/// <summary>
-/// Interface específica para repositório de Conta
-/// </summary>
 public interface IContaRepository : IRepository<Conta>
 {
-    /// <summary>
-    /// Obtém conta por nome
-    /// </summary>
-    /// <param name="nome">Nome da conta</param>
-    /// <returns>Conta encontrada ou null</returns>
     Task<Conta?> GetByNomeAsync(string nome);
-
-    /// <summary>
-    /// Verifica se existe conta com o nome especificado
-    /// </summary>
-    /// <param name="nome">Nome da conta</param>
-    /// <param name="excludeId">ID a ser excluído da verificação (para atualizações)</param>
-    /// <returns>True se existe, False caso contrário</returns>
     Task<bool> ExistsByNomeAsync(string nome, int? excludeId = null);
-
-    /// <summary>
-    /// Obtém contas por tipo
-    /// </summary>
-    /// <param name="tipo">Tipo da conta (D ou C)</param>
-    /// <returns>Lista de contas do tipo especificado</returns>
     Task<IEnumerable<Conta>> GetByTipoAsync(char tipo);
-
-    /// <summary>
-    /// Obtém contas que contêm o texto especificado no nome
-    /// </summary>
-    /// <param name="texto">Texto para busca</param>
-    /// <returns>Lista de contas encontradas</returns>
     Task<IEnumerable<Conta>> SearchByNomeAsync(string texto);
-
-    /// <summary>
-    /// Obtém contas com registros contábeis
-    /// </summary>
-    /// <returns>Lista de contas que possuem registros</returns>
     Task<IEnumerable<Conta>> GetWithRegistrosAsync();
-
-    /// <summary>
-    /// Obtém conta com seus registros contábeis
-    /// </summary>
-    /// <param name="id">ID da conta</param>
-    /// <returns>Conta com registros ou null</returns>
     Task<Conta?> GetWithRegistrosAsync(int id);
-
-
-    /// <summary>
-    /// Obtém contas de receita
-    /// </summary>
-    /// <returns>Lista de contas de receita</returns>
     Task<IEnumerable<Conta>> GetContasReceitaAsync();
-
-    /// <summary>
-    /// Obtém contas de despesa
-    /// </summary>
-    /// <returns>Lista de contas de despesa</returns>
     Task<IEnumerable<Conta>> GetContasDespesaAsync();
-
-    /// <summary>
-    /// Busca paginada de contas com filtros
-    /// </summary>
     Task<(IEnumerable<Conta> Items, int TotalCount)> SearchPagedAsync(
         string? nome = null,
         char? tipo = null,

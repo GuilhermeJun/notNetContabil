@@ -15,7 +15,6 @@ public class ClienteController : Controller
         _logger = logger;
     }
 
-    // GET: Cliente
     public async Task<IActionResult> Index()
     {
         ViewData["Title"] = "Clientes";
@@ -23,7 +22,6 @@ public class ClienteController : Controller
         return View(clientes);
     }
 
-    // GET: Cliente/Details/5
     public async Task<IActionResult> Details(int id)
     {
         ViewData["Title"] = "Detalhes do Cliente";
@@ -36,14 +34,12 @@ public class ClienteController : Controller
         return View(cliente);
     }
 
-    // GET: Cliente/Create
     public IActionResult Create()
     {
         ViewData["Title"] = "Novo Cliente";
         return View();
     }
 
-    // POST: Cliente/Create
     [HttpPost]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Create([Bind("NomeCliente,CpfCnpj,Email,Senha,Ativo")] CriarClienteDto dto)
@@ -67,7 +63,6 @@ public class ClienteController : Controller
         }
     }
 
-    // GET: Cliente/Edit/5
     public async Task<IActionResult> Edit(int id)
     {
         ViewData["Title"] = "Editar Cliente";
@@ -88,7 +83,6 @@ public class ClienteController : Controller
         return View(dto);
     }
 
-    // POST: Cliente/Edit/5
     [HttpPost]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Edit(int id, [Bind("NomeCliente,Email,Ativo")] AtualizarClienteDto dto)
@@ -112,7 +106,6 @@ public class ClienteController : Controller
         }
     }
 
-    // GET: Cliente/Delete/5
     public async Task<IActionResult> Delete(int id)
     {
         ViewData["Title"] = "Excluir Cliente";
@@ -125,7 +118,6 @@ public class ClienteController : Controller
         return View(cliente);
     }
 
-    // POST: Cliente/Delete/5
     [HttpPost, ActionName("Delete")]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> DeleteConfirmed(int id)

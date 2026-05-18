@@ -156,14 +156,6 @@ if (app.Environment.IsDevelopment())
     });
 }
 
-// Mapear rotas MVC - priorizar controllers do namespace Mvc
-app.MapControllerRoute(
-    name: "mvc",
-    pattern: "{controller=Home}/{action=Index}/{id?}",
-    defaults: null,
-    constraints: null,
-    dataTokens: new { area = (string?)null, namespaces = new[] { "SistemaContabil.Web.Controllers.Mvc", "SistemaContabil.Web.Controllers" } });
-
 app.MapControllers();
 
 // Mapear endpoints de busca paginada

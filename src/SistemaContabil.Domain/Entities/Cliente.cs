@@ -33,10 +33,8 @@ public class Cliente
 
     public virtual ICollection<Conta> Contas { get; set; } = new List<Conta>();
 
-    public virtual ICollection<Vendas> Vendas { get; set; } = new List<Vendas>();
+    public virtual ICollection<Venda> Vendas { get; set; } = new List<Venda>();
 
-    /// Valida se o cliente está válido para operações
-    /// <returns>True se válido, False caso contrário</returns>
     public bool IsValid()
     {
         return !string.IsNullOrWhiteSpace(NomeCliente) &&
@@ -48,8 +46,6 @@ public class Cliente
                (Ativo == 'S' || Ativo == 'N');
     }
 
-    /// Atualiza o status ativo/inativo do cliente
-    /// <param name="ativo">True para ativar, False para desativar</param>
     public void AtualizarStatus(bool ativo)
     {
         Ativo = ativo ? 'S' : 'N';

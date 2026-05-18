@@ -5,13 +5,13 @@ using SistemaContabil.Infrastructure.Data;
 
 namespace SistemaContabil.Infrastructure.Repositories;
 
-public class VendasRepository : Repository<Vendas>, IVendasRepository
+public class VendasRepository : Repository<Venda>, IVendasRepository
 {
     public VendasRepository(SistemaContabilDbContext context) : base(context)
     {
     }
 
-    public async Task<IEnumerable<Vendas>> GetByClienteIdAsync(int clienteId)
+    public async Task<IEnumerable<Venda>> GetByClienteIdAsync(int clienteId)
     {
         return await _dbSet
             .Include(v => v.Cliente)
@@ -21,7 +21,7 @@ public class VendasRepository : Repository<Vendas>, IVendasRepository
             .ToListAsync();
     }
 
-    public async Task<IEnumerable<Vendas>> GetByRegContIdAsync(int regContId)
+    public async Task<IEnumerable<Venda>> GetByRegContIdAsync(int regContId)
     {
         return await _dbSet
             .Include(v => v.Cliente)
@@ -31,7 +31,7 @@ public class VendasRepository : Repository<Vendas>, IVendasRepository
             .ToListAsync();
     }
 
-    public async Task<(IEnumerable<Vendas> Items, int TotalCount)> SearchPagedAsync(
+    public async Task<(IEnumerable<Venda> Items, int TotalCount)> SearchPagedAsync(
         int? clienteId = null,
         int? regContId = null,
         long? vendaEventoId = null,
@@ -76,17 +76,17 @@ public class VendasRepository : Repository<Vendas>, IVendasRepository
         return (items, totalCount);
     }
 
-    public async Task<IEnumerable<Vendas>> GetByClienteAsync(int clienteId)
+    public async Task<IEnumerable<Venda>> GetByClienteAsync(int clienteId)
     {
         return await GetByClienteIdAsync(clienteId);
     }
 
-    public async Task<IEnumerable<Vendas>> GetByRegContAsync(int regContId)
+    public async Task<IEnumerable<Venda>> GetByRegContAsync(int regContId)
     {
         return await GetByRegContIdAsync(regContId);
     }
 
-    private IQueryable<Vendas> ApplySorting(IQueryable<Vendas> query, string? sortBy, bool isDescending)
+    private IQueryable<Venda> ApplySorting(IQueryable<Venda> query, string? sortBy, bool isDescending)
     {
         return sortBy?.ToLowerInvariant() switch
         {
@@ -104,10 +104,10 @@ public class VendasRepository : Repository<Vendas>, IVendasRepository
     }
 
     // Métodos de compatibilidade
-    public async Task<Vendas?> ObterPorIdAsync(int id) => await GetByIdAsync(id);
-    public async Task<IEnumerable<Vendas>> ObterTodosAsync() => await GetAllAsync();
+    public async Task<Venda?> ObterPorIdAsync(int id) => await GetByIdAsync(id);
+    public async Task<IEnumerable<Venda>> ObterTodosAsync() => await GetAllAsync();
     
-    public async Task<Vendas> AdicionarAsync(Vendas entity)
+    public async Task<Venda> AdicionarAsync(Venda entity)
     {
         // Gerar ID usando a sequência antes de inserir
         if (entity.IdVendas == 0)
@@ -117,6 +117,6 @@ public class VendasRepository : Repository<Vendas>, IVendasRepository
         return await AddAsync(entity);
     }
     
-    public async Task<Vendas> AtualizarAsync(Vendas entity) => await UpdateAsync(entity);
+    public async Task<Venda> AtualizarAsync(Venda entity) => await UpdateAsync(entity);
     public async Task<bool> RemoverAsync(int id) => await RemoveByIdAsync(id);
 }

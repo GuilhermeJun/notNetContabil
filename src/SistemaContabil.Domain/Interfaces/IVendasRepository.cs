@@ -2,25 +2,13 @@ using SistemaContabil.Domain.Entities;
 
 namespace SistemaContabil.Domain.Interfaces;
 
-/// <summary>
-/// Interface específica para repositório de Vendas
-/// </summary>
-public interface IVendasRepository : IRepository<Vendas>
+public interface IVendasRepository : IRepository<Venda>
 {
-    /// <summary>
-    /// Obtém vendas por cliente
-    /// </summary>
-    Task<IEnumerable<Vendas>> GetByClienteIdAsync(int clienteId);
+    Task<IEnumerable<Venda>> GetByClienteIdAsync(int clienteId);
 
-    /// <summary>
-    /// Obtém vendas por registro contábil
-    /// </summary>
-    Task<IEnumerable<Vendas>> GetByRegContIdAsync(int regContId);
+    Task<IEnumerable<Venda>> GetByRegContIdAsync(int regContId);
 
-    /// <summary>
-    /// Busca paginada de vendas com filtros
-    /// </summary>
-    Task<(IEnumerable<Vendas> Items, int TotalCount)> SearchPagedAsync(
+    Task<(IEnumerable<Venda> Items, int TotalCount)> SearchPagedAsync(
         int? clienteId = null,
         int? regContId = null,
         long? vendaEventoId = null,
@@ -30,9 +18,9 @@ public interface IVendasRepository : IRepository<Vendas>
         bool isDescending = false);
 
     // Métodos de compatibilidade
-    Task<Vendas?> ObterPorIdAsync(int id);
-    Task<IEnumerable<Vendas>> ObterTodosAsync();
-    Task<Vendas> AdicionarAsync(Vendas entity);
-    Task<Vendas> AtualizarAsync(Vendas entity);
+    Task<Venda?> ObterPorIdAsync(int id);
+    Task<IEnumerable<Venda>> ObterTodosAsync();
+    Task<Venda> AdicionarAsync(Venda entity);
+    Task<Venda> AtualizarAsync(Venda entity);
     Task<bool> RemoverAsync(int id);
 }

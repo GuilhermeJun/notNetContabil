@@ -4,9 +4,6 @@ using SistemaContabil.Application.Services;
 
 namespace SistemaContabil.Web.Controllers;
 
-/// <summary>
-/// Controller para operações de Registro Contábil
-/// </summary>
 [ApiController]
 [Route("api/[controller]")]
 public class RegistroContabilController : ControllerBase
@@ -20,9 +17,6 @@ public class RegistroContabilController : ControllerBase
         _logger = logger;
     }
 
-    /// <summary>
-    /// Obtém todos os registros contábeis
-    /// </summary>
     [HttpGet]
     public async Task<ActionResult<IEnumerable<RegistroContabilDto>>> ObterTodos()
     {
@@ -38,9 +32,6 @@ public class RegistroContabilController : ControllerBase
         }
     }
 
-    /// <summary>
-    /// Obtém um registro contábil por ID
-    /// </summary>
     [HttpGet("{id}")]
     public async Task<ActionResult<RegistroContabilDto>> ObterPorId(int id)
     {
@@ -59,9 +50,6 @@ public class RegistroContabilController : ControllerBase
         }
     }
 
-    /// <summary>
-    /// Cria um novo registro contábil
-    /// </summary>
     [HttpPost]
     public async Task<ActionResult<RegistroContabilDto>> Criar([FromBody] CriarRegistroContabilDto dto)
     {
@@ -85,9 +73,6 @@ public class RegistroContabilController : ControllerBase
         }
     }
 
-    /// <summary>
-    /// Atualiza um registro contábil existente
-    /// </summary>
     [HttpPut("{id}")]
     public async Task<ActionResult<RegistroContabilDto>> Atualizar(int id, [FromBody] AtualizarRegistroContabilDto dto)
     {
@@ -116,9 +101,6 @@ public class RegistroContabilController : ControllerBase
         }
     }
 
-    /// <summary>
-    /// Remove um registro contábil
-    /// </summary>
     [HttpDelete("{id}")]
     public async Task<ActionResult> Remover(int id)
     {

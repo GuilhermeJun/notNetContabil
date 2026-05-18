@@ -18,10 +18,6 @@ public class CentroCustoController : ControllerBase
         _logger = logger;
     }
 
-    /// Obtém todos os centros de custo
-    /// <returns>Lista de centros de custo</returns>
-    /// <response code="200">Retorna a lista de centros de custo</response>
-    /// <response code="500">Erro interno do servidor</response>
     [HttpGet]
     [ProducesResponseType(typeof(IEnumerable<CentroCustoDto>), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
@@ -41,12 +37,6 @@ public class CentroCustoController : ControllerBase
         }
     }
 
-    /// Obtém um centro de custo por ID
-    /// <param name="id">ID do centro de custo</param>
-    /// <returns>Centro de custo encontrado</returns>
-    /// <response code="200">Retorna o centro de custo</response>
-    /// <response code="404">Centro de custo não encontrado</response>
-    /// <response code="500">Erro interno do servidor</response>
     [HttpGet("{id}")]
     [ProducesResponseType(typeof(CentroCustoDto), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
@@ -81,12 +71,6 @@ public class CentroCustoController : ControllerBase
         }
     }
 
-    /// Cria um novo centro de custo
-    /// <param name="dto">Dados do centro de custo a ser criado</param>
-    /// <returns>Centro de custo criado</returns>
-    /// <response code="201">Centro de custo criado com sucesso</response>
-    /// <response code="400">Dados inválidos</response>
-    /// <response code="500">Erro interno do servidor</response>
     [HttpPost]
     [ProducesResponseType(typeof(CentroCustoDto), StatusCodes.Status201Created)]
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
@@ -123,14 +107,6 @@ public class CentroCustoController : ControllerBase
         }
     }
 
-    /// Atualiza um centro de custo existente
-    /// <param name="id">ID do centro de custo</param>
-    /// <param name="dto">Dados atualizados do centro de custo</param>
-    /// <returns>Centro de custo atualizado</returns>
-    /// <response code="200">Centro de custo atualizado com sucesso</response>
-    /// <response code="400">Dados inválidos</response>
-    /// <response code="404">Centro de custo não encontrado</response>
-    /// <response code="500">Erro interno do servidor</response>
     [HttpPut("{id}")]
     [ProducesResponseType(typeof(CentroCustoDto), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
@@ -180,13 +156,6 @@ public class CentroCustoController : ControllerBase
         }
     }
 
-    /// Remove um centro de custo
-    /// <param name="id">ID do centro de custo</param>
-    /// <returns>Resultado da operação</returns>
-    /// <response code="200">Centro de custo removido com sucesso</response>
-    /// <response code="400">Centro de custo não pode ser removido (possui registros associados)</response>
-    /// <response code="404">Centro de custo não encontrado</response>
-    /// <response code="500">Erro interno do servidor</response>
     [HttpDelete("{id}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]

@@ -12,6 +12,8 @@ public class RegistroContabil
     [Column(TypeName = "decimal(9,2)")]
     public decimal Valor { get; set; }
 
+    public DateOnly DataLancamento { get; set; }
+
     [Required]
     public int ContaId { get; set; }
 
@@ -28,7 +30,7 @@ public class RegistroContabil
     [ForeignKey(nameof(CentroCustoId))]
     public virtual CentroCusto CentroCusto { get; set; } = null!;
 
-    public virtual ICollection<Vendas> Vendas { get; set; } = new List<Vendas>();
+    public virtual ICollection<Venda> Vendas { get; set; } = new List<Venda>();
 
     /// Valida se o registro contábil está válido para operações
     /// <returns>True se válido, False caso contrário</returns>

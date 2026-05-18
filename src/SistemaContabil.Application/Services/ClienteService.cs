@@ -1,30 +1,35 @@
 using AutoMapper;
+using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
 using SistemaContabil.Application.DTOs;
-using SistemaContabil.Domain.Interfaces;
-using SistemaContabil.Domain.Services;
+using SistemaContabil.Domain.Entities;
 
 namespace SistemaContabil.Application.Services;
 
-/// Serviço de aplicação para Cliente
-public class ClienteAppService : IClienteAppService
+public class ClienteService
 {
-    private readonly IClienteService _clienteService;
-    private readonly IClienteRepository _repository;
+    private readonly ClienteService _clienteService;
+    private readonly ClienteRepository _repository;
     private readonly IMapper _mapper;
 
-    public ClienteAppService(IClienteService clienteService, IClienteRepository repository, IMapper mapper)
+    public ClienteService(ClienteService clienteService, ClienteRepository repository, IMapper mapper)
     {
         _clienteService = clienteService;
         _repository = repository;
         _mapper = mapper;
     }
 
+    static async Task<IResult> ObterTodosAsync(SistemaContabilDbContext db)
+    {
+        return TypedResults.Ok(await db.Todos.Select(x => new ClienteDto(x)).ToArrayAsync());
+    }
+    /*
     public async Task<IEnumerable<ClienteDto>> ObterTodosAsync()
     {
         var clientes = await _clienteService.ObterTodosAsync();
         return _mapper.Map<IEnumerable<ClienteDto>>(clientes);
     }
-
+    */
     public async Task<ClienteDto?> ObterPorIdAsync(int id)
     {
         var cliente = await _clienteService.ObterPorIdAsync(id);
@@ -53,30 +58,5 @@ public class ClienteAppService : IClienteAppService
     public async Task<bool> RemoverAsync(int id)
     {
         return await _clienteService.RemoverAsync(id);
-    }
-
-    public async Task<PagedResultDto<ClienteDto>> SearchAsync(FiltroClienteDto filtro)
-    {
-        filtro.Validate();
-
-        var (items, totalCount) = await _repository.SearchPagedAsync(
-            nome: filtro.Nome,
-            cpfCnpj: filtro.CpfCnpj,
-            ativo: filtro.Ativo,
-            email: filtro.Email,
-            page: filtro.Page,
-            pageSize: filtro.PageSize,
-            sortBy: filtro.SortBy,
-            isDescending: filtro.IsDescending);
-
-        var dtos = _mapper.Map<IEnumerable<ClienteDto>>(items);
-
-        return new PagedResultDto<ClienteDto>
-        {
-            Items = dtos,
-            Page = filtro.Page,
-            PageSize = filtro.PageSize,
-            TotalCount = totalCount
-        };
     }
 }

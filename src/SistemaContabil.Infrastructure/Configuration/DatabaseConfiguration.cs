@@ -1,7 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using SistemaContabil.Domain.Interfaces;
 using SistemaContabil.Infrastructure.Data;
 using SistemaContabil.Infrastructure.Repositories;
 
@@ -9,7 +8,6 @@ namespace SistemaContabil.Infrastructure.Configuration;
 
 public static class DatabaseConfiguration
 {
-    /// Strings de conexão para Oracle FIAP (múltiplas opções)
     public static readonly string[] ConnectionStrings = new[]
     {
         // Opção 1: Service Name FREEPDB1 (FORMATO CORRETO)
@@ -42,11 +40,10 @@ public static class DatabaseConfiguration
         });
 
         // Registro dos repositórios
-        services.AddScoped<ICentroCustoRepository, CentroCustoRepository>();
-        services.AddScoped<IContaRepository, ContaRepository>();
-        services.AddScoped<IRegistroContabilRepository, RegistroContabilRepository>();
-        services.AddScoped<IClienteRepository, ClienteRepository>();
-        services.AddScoped<IVendasRepository, VendasRepository>();
+        services.AddScoped<ContaRepository>();
+        services.AddScoped<RegistroContabilRepository>();
+        services.AddScoped<ClienteRepository>();
+        services.AddScoped<VendasRepository>();
 
         return services;
     }

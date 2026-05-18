@@ -6,9 +6,6 @@ using SistemaContabil.Application.Services;
 
 namespace SistemaContabil.Web.Controllers.Mvc;
 
-/// <summary>
-/// Controller MVC para Vendas
-/// </summary>
 public class VendasController : Controller
 {
     private readonly IVendasAppService _service;
@@ -39,7 +36,6 @@ public class VendasController : Controller
         return ViewData;
     }
 
-    // GET: Vendas
     public async Task<IActionResult> Index()
     {
         ViewData["Title"] = "Vendas";
@@ -47,7 +43,6 @@ public class VendasController : Controller
         return View(vendas);
     }
 
-    // GET: Vendas/Details/5
     public async Task<IActionResult> Details(int id)
     {
         ViewData["Title"] = "Detalhes da Venda";
@@ -60,7 +55,6 @@ public class VendasController : Controller
         return View(venda);
     }
 
-    // GET: Vendas/Create
     public async Task<IActionResult> Create()
     {
         ViewData["Title"] = "Nova Venda";
@@ -68,7 +62,6 @@ public class VendasController : Controller
         return View();
     }
 
-    // POST: Vendas/Create
     [HttpPost]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Create([Bind("ClienteIdCliente,RegContIdRegCont,VendaEventoIdEvento")] CriarVendasDto dto)
@@ -94,7 +87,6 @@ public class VendasController : Controller
         }
     }
 
-    // GET: Vendas/Edit/5
     public async Task<IActionResult> Edit(int id)
     {
         ViewData["Title"] = "Editar Venda";
@@ -116,7 +108,6 @@ public class VendasController : Controller
         return View(dto);
     }
 
-    // POST: Vendas/Edit/5
     [HttpPost]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Edit(int id, [Bind("ClienteIdCliente,RegContIdRegCont,VendaEventoIdEvento")] AtualizarVendasDto dto)
@@ -142,7 +133,6 @@ public class VendasController : Controller
         }
     }
 
-    // GET: Vendas/Delete/5
     public async Task<IActionResult> Delete(int id)
     {
         ViewData["Title"] = "Excluir Venda";

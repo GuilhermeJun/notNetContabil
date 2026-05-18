@@ -9,24 +9,6 @@ public class MappingProfile : Profile
 {
     public MappingProfile()
     {
-        // Mapeamentos para CentroCusto
-        CreateMap<CentroCusto, CentroCustoDto>()
-            .ForMember(dest => dest.QuantidadeRegistros, opt => opt.MapFrom(src => src.RegistrosContabeis.Count))
-            .ForMember(dest => dest.DataCriacao, opt => opt.Ignore());
-
-        CreateMap<CentroCusto, CentroCustoDetalhesDto>()
-            .ForMember(dest => dest.RegistrosContabeis, opt => opt.MapFrom(src => src.RegistrosContabeis))
-            .ForMember(dest => dest.TotalRegistros, opt => opt.MapFrom(src => src.RegistrosContabeis.Count))
-            .ForMember(dest => dest.ValorTotal, opt => opt.MapFrom(src => src.RegistrosContabeis.Sum(r => r.Valor)));
-
-        CreateMap<CriarCentroCustoDto, CentroCusto>()
-            .ForMember(dest => dest.IdCentroCusto, opt => opt.Ignore())
-            .ForMember(dest => dest.RegistrosContabeis, opt => opt.Ignore());
-
-        CreateMap<AtualizarCentroCustoDto, CentroCusto>()
-            .ForMember(dest => dest.IdCentroCusto, opt => opt.Ignore())
-            .ForMember(dest => dest.RegistrosContabeis, opt => opt.Ignore());
-
         // Mapeamentos para Conta
         CreateMap<Conta, ContaDto>()
             .ForMember(dest => dest.TipoDescricao, opt => opt.MapFrom(src => src.GetTipoDescricao()))
@@ -97,16 +79,16 @@ public class MappingProfile : Profile
             .ForMember(dest => dest.Ativo, opt => opt.MapFrom(src => !string.IsNullOrEmpty(src.Ativo) ? src.Ativo[0] : 'S'));
 
         // Mapeamentos para Vendas
-        CreateMap<Vendas, VendasDto>()
+        CreateMap<Venda, VendasDto>()
             .ForMember(dest => dest.NomeCliente, opt => opt.MapFrom(src => src.Cliente.NomeCliente))
             .ForMember(dest => dest.Valor, opt => opt.MapFrom(src => src.RegistroContabil.Valor));
 
-        CreateMap<CriarVendasDto, Vendas>()
+        CreateMap<CriarVendasDto, Venda>()
             .ForMember(dest => dest.IdVendas, opt => opt.Ignore())
             .ForMember(dest => dest.Cliente, opt => opt.Ignore())
             .ForMember(dest => dest.RegistroContabil, opt => opt.Ignore());
 
-        CreateMap<AtualizarVendasDto, Vendas>()
+        CreateMap<AtualizarVendasDto, Venda>()
             .ForMember(dest => dest.IdVendas, opt => opt.Ignore())
             .ForMember(dest => dest.Cliente, opt => opt.Ignore())
             .ForMember(dest => dest.RegistroContabil, opt => opt.Ignore());

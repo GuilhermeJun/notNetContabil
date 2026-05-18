@@ -5,9 +5,6 @@ using SistemaContabil.Web.Helpers;
 
 namespace SistemaContabil.Web.Endpoints;
 
-/// <summary>
-/// Endpoints Minimal API para busca paginada
-/// </summary>
 public static class SearchEndpoints
 {
     public static void MapSearchEndpoints(this WebApplication app)
@@ -16,7 +13,6 @@ public static class SearchEndpoints
             .WithTags("Search")
             .WithDescription("Endpoints de busca paginada com filtros e ordenação");
 
-        // Busca de Centros de Custo
         group.MapGet("/centrocusto", async (
             ICentroCustoAppService service,
             HttpContext httpContext,

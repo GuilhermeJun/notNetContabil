@@ -25,7 +25,7 @@ public static class ServiceCollectionExtensions
         services.AddScoped<ICentroCustoAppService, CentroCustoAppService>();
         services.AddScoped<IContaAppService, ContaAppService>();
         services.AddScoped<IRegistroContabilAppService, RegistroContabilAppService>();
-        services.AddScoped<IClienteAppService, ClienteAppService>();
+        services.AddScoped<IClienteAppService, ClienteService>();
         services.AddScoped<IVendasAppService, VendasAppService>();
 
         // Registro dos serviços de domínio

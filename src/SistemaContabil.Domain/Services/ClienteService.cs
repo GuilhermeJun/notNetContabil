@@ -3,7 +3,6 @@ using SistemaContabil.Domain.Interfaces;
 
 namespace SistemaContabil.Domain.Services;
 
-/// Serviço de domínio para Cliente
 public class ClienteService : IClienteService
 {
     private readonly IClienteRepository _repository;

@@ -3,7 +3,6 @@ using SistemaContabil.Domain.Interfaces;
 
 namespace SistemaContabil.Domain.Services;
 
-/// Serviço de domínio para Registro Contábil
 public class RegistroContabilService : IRegistroContabilService
 {
     private readonly IRegistroContabilRepository _repository;

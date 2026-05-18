@@ -1,13 +1,10 @@
 using Microsoft.EntityFrameworkCore;
-using SistemaContabil.Domain.Interfaces;
 using SistemaContabil.Infrastructure.Data;
 using System.Linq.Expressions;
 
 namespace SistemaContabil.Infrastructure.Repositories;
 
-/// Implementação genérica do repositório
-/// <typeparam name="T">Tipo da entidade</typeparam>
-public class Repository<T> : IRepository<T> where T : class
+public class Repository<T> where T : class
 {
     protected readonly SistemaContabilDbContext _context;
     protected readonly DbSet<T> _dbSet;

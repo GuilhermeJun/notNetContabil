@@ -6,7 +6,6 @@ using Xunit;
 
 namespace SistemaContabil.Application.Services;
 
-/// Serviço de aplicação para Centro de Custo
 public class CentroCustoAppService : ICentroCustoAppService
 {
     private readonly ICentroCustoService _centroCustoService;

@@ -5,9 +5,6 @@ using SistemaContabil.Domain.Services;
 
 namespace SistemaContabil.Application.Services;
 
-/// <summary>
-/// Serviço de aplicação para Registro Contábil
-/// </summary>
 public class RegistroContabilAppService : IRegistroContabilAppService
 {
     private readonly IRegistroContabilService _registroService;

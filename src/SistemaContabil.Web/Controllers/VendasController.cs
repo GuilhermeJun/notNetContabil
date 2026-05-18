@@ -5,9 +5,6 @@ using SistemaContabil.Web.Helpers;
 
 namespace SistemaContabil.Web.Controllers;
 
-/// <summary>
-/// Controller para gerenciamento de Vendas
-/// </summary>
 [ApiController]
 [Route("api/[controller]")]
 [Produces("application/json")]
@@ -22,9 +19,6 @@ public class VendasController : ControllerBase
         _logger = logger;
     }
 
-    /// <summary>
-    /// Obtém todas as vendas
-    /// </summary>
     [HttpGet]
     [ProducesResponseType(typeof(IEnumerable<VendasDto>), StatusCodes.Status200OK)]
     public async Task<ActionResult<IEnumerable<VendasDto>>> GetAll()
@@ -41,9 +35,6 @@ public class VendasController : ControllerBase
         }
     }
 
-    /// <summary>
-    /// Obtém uma venda por ID
-    /// </summary>
     [HttpGet("{id}")]
     [ProducesResponseType(typeof(VendasDto), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -66,9 +57,6 @@ public class VendasController : ControllerBase
         }
     }
 
-    /// <summary>
-    /// Cria uma nova venda
-    /// </summary>
     [HttpPost]
     [ProducesResponseType(typeof(VendasDto), StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -101,9 +89,6 @@ public class VendasController : ControllerBase
         }
     }
 
-    /// <summary>
-    /// Atualiza uma venda existente
-    /// </summary>
     [HttpPut("{id}")]
     [ProducesResponseType(typeof(VendasDto), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]

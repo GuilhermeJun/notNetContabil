@@ -5,7 +5,6 @@ using SistemaContabil.Domain.Services;
 
 namespace SistemaContabil.Application.Services;
 
-/// Serviço de aplicação para Conta
 public class ContaAppService : IContaAppService
 {
     private readonly IContaService _contaService;

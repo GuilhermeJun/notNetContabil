@@ -2,14 +2,9 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace SistemaContabil.Web.Helpers;
 
-/// <summary>
 /// Helper para padronizar respostas de API
-/// </summary>
 public static class ApiControllerHelper
 {
-    /// <summary>
-    /// Cria uma resposta ProblemDetails padronizada
-    /// </summary>
     public static ProblemDetails CreateProblemDetails(
         int statusCode,
         string title,
@@ -36,9 +31,6 @@ public static class ApiControllerHelper
         return problem;
     }
 
-    /// <summary>
-    /// Cria resposta de erro BadRequest com ProblemDetails
-    /// </summary>
     public static ActionResult BadRequestProblem(string detail, string? instance = null)
     {
         return new ObjectResult(CreateProblemDetails(
@@ -51,9 +43,6 @@ public static class ApiControllerHelper
         };
     }
 
-    /// <summary>
-    /// Cria resposta de erro NotFound com ProblemDetails
-    /// </summary>
     public static ActionResult NotFoundProblem(string detail, string? instance = null)
     {
         return new ObjectResult(CreateProblemDetails(
@@ -66,9 +55,6 @@ public static class ApiControllerHelper
         };
     }
 
-    /// <summary>
-    /// Cria resposta de erro InternalServerError com ProblemDetails
-    /// </summary>
     public static ActionResult InternalServerErrorProblem(string detail, string? instance = null)
     {
         return new ObjectResult(CreateProblemDetails(
