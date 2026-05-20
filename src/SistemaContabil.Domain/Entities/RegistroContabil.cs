@@ -27,9 +27,6 @@ public class RegistroContabil
     [ForeignKey(nameof(ContaId))]
     public virtual Conta Conta { get; set; } = null!;
 
-    [ForeignKey(nameof(CentroCustoId))]
-    public virtual CentroCusto CentroCusto { get; set; } = null!;
-
     public virtual ICollection<Venda> Vendas { get; set; } = new List<Venda>();
 
     /// Valida se o registro contábil está válido para operações

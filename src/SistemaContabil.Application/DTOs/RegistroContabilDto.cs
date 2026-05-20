@@ -62,7 +62,5 @@ public class RegistroContabilDetalhesDto
     public DateTime? DataAtualizacao { get; set; }
 
     public ContaDto Conta { get; set; } = new();
-
-    public CentroCustoDto CentroCusto { get; set; } = new();
 }
 

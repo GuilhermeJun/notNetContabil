@@ -12,39 +12,31 @@ public class ClienteService : IClienteService
         _repository = repository;
     }
 
-    public async Task<Cliente> CriarAsync(string nome, string cpfCnpj, string email, string senha, char ativo = 'S')
+    public async Task<Cliente> CriarAsync(string nome, string cpf, string email, char ativo = 'S')
     {
         if (string.IsNullOrWhiteSpace(nome))
             throw new ArgumentException("Nome do cliente é obrigatório", nameof(nome));
 
-        if (string.IsNullOrWhiteSpace(cpfCnpj))
-            throw new ArgumentException("CPF/CNPJ é obrigatório", nameof(cpfCnpj));
+        if (string.IsNullOrWhiteSpace(cpf))
+            throw new ArgumentException("CPF/CNPJ é obrigatório", nameof(cpf));
 
         if (string.IsNullOrWhiteSpace(email))
             throw new ArgumentException("Email é obrigatório", nameof(email));
 
-        if (string.IsNullOrWhiteSpace(senha))
-            throw new ArgumentException("Senha é obrigatória", nameof(senha));
-
-        if (ativo != 'S' && ativo != 'N')
+        if (ativo is not ('S' or 'N'))
             throw new ArgumentException("Status ativo deve ser 'S' ou 'N'", nameof(ativo));
 
-        // Verificar se já existe cliente com mesmo CPF/CNPJ
-        var existenteCpf = await _repository.GetByCpfCnpjAsync(cpfCnpj);
-        if (existenteCpf != null)
-            throw new ArgumentException("Já existe um cliente com este CPF/CNPJ", nameof(cpfCnpj));
+        if (await _repository.GetByCpfCnpjAsync(cpf) is not null)
+            throw new ArgumentException("Já existe um cliente com este CPF/CNPJ", nameof(cpf));
 
-        // Verificar se já existe cliente com mesmo email
-        var existenteEmail = await _repository.GetByEmailAsync(email);
-        if (existenteEmail != null)
+        if (await _repository.GetByEmailAsync(email) is not null)
             throw new ArgumentException("Já existe um cliente com este email", nameof(email));
 
         var cliente = new Cliente
         {
-            NomeCliente = nome.Trim(),
-            CpfCnpj = cpfCnpj.Trim(),
+            Nome = nome.Trim(),
+            Cpf = cpf.Trim(),
             Email = email.Trim(),
-            Senha = senha,
             Ativo = ativo,
             DataCadastro = DateTime.Now
         };
@@ -60,19 +52,18 @@ public class ClienteService : IClienteService
         if (string.IsNullOrWhiteSpace(email))
             throw new ArgumentException("Email é obrigatório", nameof(email));
 
-        if (ativo != 'S' && ativo != 'N')
+        if (ativo is not ('S' or 'N'))
             throw new ArgumentException("Status ativo deve ser 'S' ou 'N'", nameof(ativo));
 
         var cliente = await _repository.ObterPorIdAsync(id);
-        if (cliente == null)
+        if (cliente is null)
             throw new InvalidOperationException($"Cliente com ID {id} não encontrado");
 
-        // Verificar se outro cliente já usa este email
         var existenteEmail = await _repository.GetByEmailAsync(email);
-        if (existenteEmail != null && existenteEmail.IdCliente != id)
+        if (existenteEmail is not null && existenteEmail.Id != id)
             throw new ArgumentException("Já existe outro cliente com este email", nameof(email));
 
-        cliente.NomeCliente = nome.Trim();
+        cliente.Nome = nome.Trim();
         cliente.Email = email.Trim();
         cliente.AtualizarStatus(ativo == 'S');
 
@@ -82,7 +73,7 @@ public class ClienteService : IClienteService
     public async Task<bool> RemoverAsync(int id)
     {
         var cliente = await _repository.ObterPorIdAsync(id);
-        if (cliente == null)
+        if (cliente is null)
             throw new InvalidOperationException($"Cliente com ID {id} não encontrado");
 
         return await _repository.RemoverAsync(id);
@@ -106,9 +97,9 @@ public class ClienteService : IClienteService
         return await _repository.SearchByNomeAsync(nome);
     }
 
-    public async Task<Cliente?> ObterPorCpfCnpjAsync(string cpfCnpj)
+    public async Task<Cliente?> ObterPorCpfAsync(string cpf)
     {
-        return await _repository.GetByCpfCnpjAsync(cpfCnpj);
+        return await _repository.GetByCpfCnpjAsync(cpf);
     }
 
     public async Task<Cliente?> ObterPorEmailAsync(string email)

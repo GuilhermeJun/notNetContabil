@@ -6,10 +6,10 @@ namespace SistemaContabil.Infrastructure.Repositories;
 
 public class Repository<T> where T : class
 {
-    protected readonly SistemaContabilDbContext _context;
+    protected readonly SistemaContabilDb _context;
     protected readonly DbSet<T> _dbSet;
 
-    public Repository(SistemaContabilDbContext context)
+    public Repository(SistemaContabilDb context)
     {
         _context = context;
         _dbSet = context.Set<T>();

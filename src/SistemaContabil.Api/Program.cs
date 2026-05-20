@@ -1,15 +1,12 @@
 using HealthChecks.UI.Client;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Microsoft.OpenApi;
-using Microsoft.OpenApi.Models;
 using Scalar.AspNetCore;
 using Serilog;
 using Serilog.Events;
-using SistemaContabil.Application.Extensions;
+using SistemaContabil.Api.Endpoints;
 using SistemaContabil.Infrastructure.Extensions;
-using SistemaContabil.Web.Endpoints;
 using SistemaContabil.Web.Middleware;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -99,7 +96,6 @@ builder.Services.AddCors(options =>
 });
 
 // Configuração de serviços das camadas
-builder.Services.AddApplicationServices();
 builder.Services.AddInfrastructureServices(builder.Configuration);
 
 builder.Services.AddProblemDetails();
@@ -156,10 +152,13 @@ if (app.Environment.IsDevelopment())
     });
 }
 
-app.MapControllers();
-
-// Mapear endpoints de busca paginada
-app.MapSearchEndpoints();
+app.RegisterClienteEndpoints();
+app.RegisterContaEndpoints();
+app.RegisterRegistroContabilEndpoints();
+app.RegisterProdutoEndpoints();
+app.RegisterPagamentoEndpoints();
+app.RegisterVendaEndpoints();
+app.RegisterItemVendaEndpoints();
 
 // Health check endpoint
 app.MapHealthChecks("/health", new HealthCheckOptions

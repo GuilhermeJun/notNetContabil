@@ -31,7 +31,7 @@ public static class DatabaseConfiguration
         IConfiguration configuration)
     {
         // Configuração do DbContext
-        services.AddDbContext<SistemaContabilDbContext>(options =>
+        services.AddDbContext<SistemaContabilDb>(options =>
         {
             options.UseOracle(ConnectionString, oracleOptions =>
             {
@@ -51,7 +51,7 @@ public static class DatabaseConfiguration
     public static IServiceCollection AddDatabaseDevelopment(
         this IServiceCollection services)
     {
-        services.AddDbContext<SistemaContabilDbContext>(options =>
+        services.AddDbContext<SistemaContabilDb>(options =>
         {
             options.UseOracle(ConnectionString, oracleOptions =>
             {

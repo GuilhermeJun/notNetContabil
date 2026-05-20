@@ -40,8 +40,8 @@ namespace SistemaContabil.Test
         {
             var newCliente = new ClienteDto()
             {
-                NomeCliente = "Teste Cliente",
-                CpfCnpj = "12345678901",
+                Nome = "Teste Cliente",
+                Cpf = "12345678901",
                 Email = "jun@teste.com",
             };
 

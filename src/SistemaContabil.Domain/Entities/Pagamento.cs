@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace SistemaContabil.Domain.Entities
 {
-    internal class Pagamento
+    public class Pagamento
     {
         [Key]
         public int IdPagamento { get; set; }

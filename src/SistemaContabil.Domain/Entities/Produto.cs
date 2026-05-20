@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace SistemaContabil.Domain.Entities
 {
-    internal class Produto
+    public class Produto
     {
         [Key] 
         public int Id { get; set; }

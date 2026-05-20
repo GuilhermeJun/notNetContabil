@@ -1,13 +1,12 @@
 using Microsoft.EntityFrameworkCore;
 using SistemaContabil.Domain.Entities;
-using SistemaContabil.Domain.Interfaces;
 using SistemaContabil.Infrastructure.Data;
 
 namespace SistemaContabil.Infrastructure.Repositories;
 
-public class VendasRepository : Repository<Venda>, IVendasRepository
+public class VendasRepository : Repository<Venda>
 {
-    public VendasRepository(SistemaContabilDbContext context) : base(context)
+    public VendasRepository(SistemaContabilDb context) : base(context)
     {
     }
 

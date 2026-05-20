@@ -1,13 +1,12 @@
 using Microsoft.EntityFrameworkCore;
 using SistemaContabil.Domain.Entities;
-using SistemaContabil.Domain.Interfaces;
 using SistemaContabil.Infrastructure.Data;
 
 namespace SistemaContabil.Infrastructure.Repositories;
 
-public class RegistroContabilRepository : Repository<RegistroContabil>, IRegistroContabilRepository
+public class RegistroContabilRepository : Repository<RegistroContabil>
 {
-    public RegistroContabilRepository(SistemaContabilDbContext context) : base(context)
+    public RegistroContabilRepository(SistemaContabilDb context) : base(context)
     {
     }
 
@@ -15,7 +14,6 @@ public class RegistroContabilRepository : Repository<RegistroContabil>, IRegistr
     {
         return await _dbSet
             .Include(rc => rc.Conta)
-            .Include(rc => rc.CentroCusto)
             .Where(rc => rc.ContaId == contaId)
             .OrderByDescending(rc => rc.DataCriacao)
             .ToListAsync();
@@ -25,7 +23,6 @@ public class RegistroContabilRepository : Repository<RegistroContabil>, IRegistr
     {
         return await _dbSet
             .Include(rc => rc.Conta)
-            .Include(rc => rc.CentroCusto)
             .Where(rc => rc.CentroCustoId == centroCustoId)
             .OrderByDescending(rc => rc.DataCriacao)
             .ToListAsync();
@@ -35,7 +32,6 @@ public class RegistroContabilRepository : Repository<RegistroContabil>, IRegistr
     {
         return await _dbSet
             .Include(rc => rc.Conta)
-            .Include(rc => rc.CentroCusto)
             .Where(rc => rc.DataCriacao >= dataInicio && rc.DataCriacao <= dataFim)
             .OrderByDescending(rc => rc.DataCriacao)
             .ToListAsync();
@@ -45,7 +41,6 @@ public class RegistroContabilRepository : Repository<RegistroContabil>, IRegistr
     {
         return await _dbSet
             .Include(rc => rc.Conta)
-            .Include(rc => rc.CentroCusto)
             .Where(rc => rc.Valor >= valorMinimo && rc.Valor <= valorMaximo)
             .OrderByDescending(rc => rc.DataCriacao)
             .ToListAsync();
@@ -55,7 +50,6 @@ public class RegistroContabilRepository : Repository<RegistroContabil>, IRegistr
     {
         return await _dbSet
             .Include(rc => rc.Conta)
-            .Include(rc => rc.CentroCusto)
             .OrderByDescending(rc => rc.DataCriacao)
             .ToListAsync();
     }
@@ -64,7 +58,6 @@ public class RegistroContabilRepository : Repository<RegistroContabil>, IRegistr
     {
         return await _dbSet
             .Include(rc => rc.Conta)
-            .Include(rc => rc.CentroCusto)
             .FirstOrDefaultAsync(rc => rc.IdRegCont == id);
     }
 
@@ -93,7 +86,6 @@ public class RegistroContabilRepository : Repository<RegistroContabil>, IRegistr
     {
         var query = _dbSet
             .Include(rc => rc.Conta)
-            .Include(rc => rc.CentroCusto)
             .AsQueryable();
 
         return ascending 
@@ -105,7 +97,6 @@ public class RegistroContabilRepository : Repository<RegistroContabil>, IRegistr
     {
         var query = _dbSet
             .Include(rc => rc.Conta)
-            .Include(rc => rc.CentroCusto)
             .AsQueryable();
 
         return ascending 
@@ -204,7 +195,6 @@ public class RegistroContabilRepository : Repository<RegistroContabil>, IRegistr
     {
         var query = _dbSet
             .Include(rc => rc.Conta)
-            .Include(rc => rc.CentroCusto)
             .AsQueryable();
 
         // Aplicar filtros

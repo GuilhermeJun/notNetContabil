@@ -5,27 +5,23 @@ namespace SistemaContabil.Domain.Entities;
 public class Cliente
 {
     [Key]
-    public int IdCliente { get; set; }
+    public int Id { get; set; }
 
     [Required]
     [StringLength(100)]
-    public string NomeCliente { get; set; } = string.Empty;
+    public string Nome { get; set; } = string.Empty;
 
     [Required]
     public DateTime DataCadastro { get; set; } = DateTime.Now;
 
     [Required]
     [StringLength(14)]
-    public string CpfCnpj { get; set; } = string.Empty;
+    public string Cpf { get; set; } = string.Empty;
 
     [Required]
     [StringLength(100)]
     [EmailAddress]
     public string Email { get; set; } = string.Empty;
-
-    [Required]
-    [StringLength(100)]
-    public string Senha { get; set; } = string.Empty;
 
     [Required]
     [StringLength(1)]
@@ -37,10 +33,10 @@ public class Cliente
 
     public bool IsValid()
     {
-        return !string.IsNullOrWhiteSpace(NomeCliente) &&
-               NomeCliente.Length <= 100 &&
-               !string.IsNullOrWhiteSpace(CpfCnpj) &&
-               CpfCnpj.Length <= 14 &&
+        return !string.IsNullOrWhiteSpace(Nome) &&
+               Nome.Length <= 100 &&
+               !string.IsNullOrWhiteSpace(Cpf) &&
+               Cpf.Length <= 14 &&
                !string.IsNullOrWhiteSpace(Email) &&
                Email.Length <= 100 &&
                (Ativo == 'S' || Ativo == 'N');

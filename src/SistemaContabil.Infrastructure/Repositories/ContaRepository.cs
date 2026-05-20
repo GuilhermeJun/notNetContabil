@@ -1,13 +1,12 @@
 using Microsoft.EntityFrameworkCore;
 using SistemaContabil.Domain.Entities;
-using SistemaContabil.Domain.Interfaces;
 using SistemaContabil.Infrastructure.Data;
 
 namespace SistemaContabil.Infrastructure.Repositories;
 
-public class ContaRepository : Repository<Conta>, IContaRepository
+public class ContaRepository : Repository<Conta>
 {
-    public ContaRepository(SistemaContabilDbContext context) : base(context)
+    public ContaRepository(SistemaContabilDb context) : base(context)
     {
     }
 
@@ -53,15 +52,7 @@ public class ContaRepository : Repository<Conta>, IContaRepository
             .OrderBy(c => c.NomeContaContabil)
             .ToListAsync();
     }
-
-    public async Task<Conta?> GetWithRegistrosAsync(int id)
-    {
-        return await _dbSet
-            .Include(c => c.RegistrosContabeis)
-            .ThenInclude(rc => rc.CentroCusto)
-            .FirstOrDefaultAsync(c => c.IdContaContabil == id);
-    }
-
+    
     public async Task<IEnumerable<Conta>> GetContasReceitaAsync()
     {
         return await GetByTipoAsync('R');

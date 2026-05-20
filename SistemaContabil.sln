@@ -8,7 +8,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SistemaContabil.Application
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SistemaContabil.Infrastructure", "src\SistemaContabil.Infrastructure\SistemaContabil.Infrastructure.csproj", "{92B26931-CADA-4B44-BFB2-CDA5AD8328CC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SistemaContabil.Web", "src\SistemaContabil.Web\SistemaContabil.Web.csproj", "{790A61AE-F4C7-4649-A14A-738A75D97B53}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SistemaContabil.Api", "src\SistemaContabil.Api\SistemaContabil.Api.csproj", "{790A61AE-F4C7-4649-A14A-738A75D97B53}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SistemaContabil.Test", "SistemaContabil.Test\SistemaContabil.Test.csproj", "{E47427C5-E679-4B6C-ABD0-447C6C62D8B7}"
 EndProject
