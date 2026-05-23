@@ -2,6 +2,7 @@ using System.ComponentModel;
 using IdempotentAPI.MinimalAPI;
 using Microsoft.EntityFrameworkCore;
 using SistemaContabil.Domain.Entities;
+using SistemaContabil.Application.DTOs;
 using SistemaContabil.Infrastructure.Data;
 
 namespace SistemaContabil.Api.Endpoints;
@@ -17,18 +18,18 @@ public static class ItemVendaEndpoints
         itensVenda.MapGet("/", GetAllItensVenda)
             .WithName("GetAllItensVenda")
             .WithSummary("Apresenta todos os itens de venda")
-            .Produces<List<ItemVenda>>();
+            .Produces<List<ItemVendaResponse>>();
 
         itensVenda.MapGet("/{id:int}", GetItemVenda)
             .WithName("GetItemVendaById")
             .WithSummary("Busca um item de venda por id")
-            .Produces<ItemVenda>(200)
+            .Produces<ItemVendaResponse>(200)
             .Produces(404);
 
         itensVenda.MapPost("/", CreateItemVenda)
             .WithName("CreateItemVenda")
             .WithSummary("Cria um novo item de venda")
-            .Produces<ItemVenda>(201)
+            .Produces<ItemVendaResponse>(201)
             .Produces(400)
             .AddEndpointFilter<IdempotentAPIEndpointFilter>();
 
@@ -38,13 +39,6 @@ public static class ItemVendaEndpoints
             .Produces(204)
             .Produces(404)
             .Produces(400);
-
-        itensVenda.MapDelete("/{id:int}", DeleteItemVenda)
-            .WithName("DeleteItemVendaById")
-            .WithSummary("Deleta um item de venda pelo seu id")
-            .Produces(204)
-            .Produces(404);
-
         #endregion
     }
 
@@ -52,7 +46,9 @@ public static class ItemVendaEndpoints
 
     static async Task<IResult> GetAllItensVenda(SistemaContabilDb db)
     {
-        return TypedResults.Ok(await db.ItensVenda.ToListAsync());
+        return TypedResults.Ok(await db.ItensVenda
+            .Select(i => new ItemVendaResponse(i))
+            .ToListAsync());
     }
 
     static async Task<IResult> GetItemVenda(
@@ -60,12 +56,12 @@ public static class ItemVendaEndpoints
         SistemaContabilDb db)
     {
         return await db.ItensVenda.FindAsync(id) is ItemVenda itemVenda
-            ? TypedResults.Ok(itemVenda)
+            ? TypedResults.Ok(new ItemVendaResponse(itemVenda))
             : TypedResults.NotFound();
     }
 
     static async Task<IResult> CreateItemVenda(
-        [Description("Item de venda a ser cadastrado.")] ItemVendaRequest itemVendaRequest,
+        [Description("Item de venda a ser cadastrado.")] CreateItemVendaRequest itemVendaRequest,
         SistemaContabilDb db)
     {
         if (!await db.Produtos.AnyAsync(p => p.Id == itemVendaRequest.ProdutoId))
@@ -73,7 +69,7 @@ public static class ItemVendaEndpoints
             return TypedResults.BadRequest(new { message = "Produto não encontrado" });
         }
 
-        if (!await db.Vendas.AnyAsync(v => v.IdVendas == itemVendaRequest.VendaId))
+        if (!await db.Vendas.AnyAsync(v => v.Id == itemVendaRequest.VendaId))
         {
             return TypedResults.BadRequest(new { message = "Venda não encontrada" });
         }
@@ -82,6 +78,7 @@ public static class ItemVendaEndpoints
         {
             Id = await db.ItensVenda.Select(i => i.Id).DefaultIfEmpty().MaxAsync() + 1,
             Quantidade = itemVendaRequest.Quantidade,
+            ValorUnitario = itemVendaRequest.ValorUnitario,
             ProdutoId = itemVendaRequest.ProdutoId,
             VendaId = itemVendaRequest.VendaId
         };
@@ -89,12 +86,12 @@ public static class ItemVendaEndpoints
         db.ItensVenda.Add(itemVenda);
         await db.SaveChangesAsync();
 
-        return TypedResults.Created($"/itens-venda/{itemVenda.Id}", itemVenda);
+        return TypedResults.Created($"/itens-venda/{itemVenda.Id}", new ItemVendaResponse(itemVenda));
     }
 
     static async Task<IResult> UpdateItemVenda(
         [Description("id do item de venda que será atualizado.")] int id,
-        ItemVendaRequest itemVendaRequest,
+        UpdateItemVendaRequest itemVendaRequest,
         HttpContext http)
     {
         var db = http.RequestServices.GetRequiredService<SistemaContabilDb>();
@@ -103,29 +100,13 @@ public static class ItemVendaEndpoints
         if (itemVenda is null) return TypedResults.NotFound();
 
         itemVenda.Quantidade = itemVendaRequest.Quantidade;
+        itemVenda.ValorUnitario = itemVendaRequest.ValorUnitario;
         itemVenda.ProdutoId = itemVendaRequest.ProdutoId;
         itemVenda.VendaId = itemVendaRequest.VendaId;
 
         await db.SaveChangesAsync();
 
         return TypedResults.NoContent();
-    }
-
-    static async Task<IResult> DeleteItemVenda(
-        [Description("id do item de venda que será deletado.")] int id,
-        HttpContext http)
-    {
-        var db = http.RequestServices.GetRequiredService<SistemaContabilDb>();
-
-        if (await db.ItensVenda.FindAsync(id) is ItemVenda itemVenda)
-        {
-            db.ItensVenda.Remove(itemVenda);
-            await db.SaveChangesAsync();
-
-            return TypedResults.NoContent();
-        }
-
-        return TypedResults.NotFound();
     }
 
     #endregion

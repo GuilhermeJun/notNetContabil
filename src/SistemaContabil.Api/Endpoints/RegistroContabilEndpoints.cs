@@ -138,7 +138,7 @@ public static class RegistroContabilEndpoints
         return TypedResults.NotFound();
     }
 
-    static async Task<IResult?> ValidateReferencesAsync(int contaId, int centroCustoId, SistemaContabilDb db)
+    static async Task<IResult?> ValidateReferencesAsync(int contaId, int? centroCustoId, SistemaContabilDb db)
     {
         if (!await db.Contas.AnyAsync(c => c.IdContaContabil == contaId))
         {

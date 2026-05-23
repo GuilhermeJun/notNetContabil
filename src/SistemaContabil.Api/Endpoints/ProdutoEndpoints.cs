@@ -1,6 +1,7 @@
 using System.ComponentModel;
 using IdempotentAPI.MinimalAPI;
 using Microsoft.EntityFrameworkCore;
+using SistemaContabil.Application.DTOs;
 using SistemaContabil.Domain.Entities;
 using SistemaContabil.Infrastructure.Data;
 
@@ -17,18 +18,18 @@ public static class ProdutoEndpoints
         produtos.MapGet("/", GetAllProdutos)
             .WithName("GetAllProdutos")
             .WithSummary("Apresenta todos os produtos")
-            .Produces<List<Produto>>();
+            .Produces<List<ProdutoResponse>>();
 
         produtos.MapGet("/{id:int}", GetProduto)
             .WithName("GetProdutoById")
             .WithSummary("Busca um produto por id")
-            .Produces<Produto>(200)
+            .Produces<ProdutoResponse>(200)
             .Produces(404);
 
         produtos.MapPost("/", CreateProduto)
             .WithName("CreateProduto")
             .WithSummary("Cria um novo produto")
-            .Produces<Produto>(201)
+            .Produces<ProdutoResponse>(201)
             .Produces(400)
             .AddEndpointFilter<IdempotentAPIEndpointFilter>();
 
@@ -53,7 +54,9 @@ public static class ProdutoEndpoints
 
     static async Task<IResult> GetAllProdutos(SistemaContabilDb db)
     {
-        return TypedResults.Ok(await db.Produtos.ToListAsync());
+        return TypedResults.Ok(await db.Produtos
+            .Select(p => new ProdutoResponse(p))
+            .ToListAsync());
     }
 
     static async Task<IResult> GetProduto(
@@ -61,12 +64,12 @@ public static class ProdutoEndpoints
         SistemaContabilDb db)
     {
         return await db.Produtos.FindAsync(id) is Produto produto
-            ? TypedResults.Ok(produto)
+            ? TypedResults.Ok(new ProdutoResponse(produto))
             : TypedResults.NotFound();
     }
 
     static async Task<IResult> CreateProduto(
-        [Description("Produto a ser cadastrado.")] ProdutoRequest produtoRequest,
+        [Description("Produto a ser cadastrado.")] CreateProdutoRequest produtoRequest,
         SistemaContabilDb db)
     {
         if (string.IsNullOrWhiteSpace(produtoRequest.Nome))
@@ -79,19 +82,19 @@ public static class ProdutoEndpoints
             Id = await db.Produtos.Select(p => p.Id).DefaultIfEmpty().MaxAsync() + 1,
             Nome = produtoRequest.Nome.Trim(),
             Descricao = produtoRequest.Descricao.Trim(),
-            valor = produtoRequest.Valor,
-            estoque = produtoRequest.Estoque
+            Preco = produtoRequest.Preco,
+            Estoque = produtoRequest.Estoque
         };
 
         db.Produtos.Add(produto);
         await db.SaveChangesAsync();
 
-        return TypedResults.Created($"/produtos/{produto.Id}", produto);
+        return TypedResults.Created($"/produtos/{produto.Id}", new ProdutoResponse(produto));
     }
 
     static async Task<IResult> UpdateProduto(
         [Description("id do produto que será atualizado.")] int id,
-        ProdutoRequest produtoRequest,
+        UpdateProdutoRequest produtoRequest,
         HttpContext http)
     {
         var db = http.RequestServices.GetRequiredService<SistemaContabilDb>();
@@ -101,8 +104,8 @@ public static class ProdutoEndpoints
 
         produto.Nome = produtoRequest.Nome.Trim();
         produto.Descricao = produtoRequest.Descricao.Trim();
-        produto.valor = produtoRequest.Valor;
-        produto.estoque = produtoRequest.Estoque;
+        produto.Preco = produtoRequest.Preco;
+        produto.Estoque = produtoRequest.Estoque;
 
         await db.SaveChangesAsync();
 
@@ -134,4 +137,4 @@ public static class ProdutoEndpoints
     #endregion
 }
 
-public record ProdutoRequest(string Nome, string Descricao, float Valor, int Estoque);
+// ProdutoResponse DTO is defined in src/SistemaContabil.Application/DTOs/ProdutoDto.cs

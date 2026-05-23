@@ -6,81 +6,34 @@ namespace SistemaContabil.Domain.Entities;
 public class RegistroContabil
 {
     [Key]
-    public int IdRegCont { get; set; }
+    [Column("id_reg_cont")]
+    public int Id { get; set; }
 
     [Required]
-    [Column(TypeName = "decimal(9,2)")]
+    [Column("valor")]
     public decimal Valor { get; set; }
 
-    public DateOnly DataLancamento { get; set; }
+    [Column("data_lanca")]
+    public DateTime DataLancamento { get; set; } = DateTime.Now;
 
-    [Required]
-    public int ContaId { get; set; }
-
-    [Required]
-    public int CentroCustoId { get; set; }
-
-    public DateTime DataCriacao { get; set; } = DateTime.Now;
-
+    [Column("data_atualizacao")]
     public DateTime? DataAtualizacao { get; set; }
 
+    [Required]
+    [Column("conta_contabil_id_conta")]
+    public int ContaId { get; set; }
+
     [ForeignKey(nameof(ContaId))]
-    public virtual Conta Conta { get; set; } = null!;
+    public virtual Conta Conta { get; set; }
 
-    public virtual ICollection<Venda> Vendas { get; set; } = new List<Venda>();
+    // Backwards compatible aliases
+    [Column("id_reg_cont")]
+    public int IdRegCont { get => Id; set => Id = value; }
 
-    /// Valida se o registro contábil está válido para operações
-    /// <returns>True se válido, False caso contrário</returns>
-    public bool IsValid()
-    {
-        return Valor > 0 && 
-               Valor <= 999999.99m &&
-               ContaId > 0 &&
-               CentroCustoId > 0;
-    }
+    [Column("data_criacao")]
+    public DateTime DataCriacao { get => DataLancamento; set => DataLancamento = value; }
 
-    /// Atualiza o valor do registro contábil
-    /// <param name="novoValor">Novo valor para o registro</param>
-    /// <exception cref="ArgumentException">Lançada quando o valor é inválido</exception>
-    public void AtualizarValor(decimal novoValor)
-    {
-        if (novoValor <= 0)
-            throw new ArgumentException("Valor deve ser maior que zero", nameof(novoValor));
-        
-        if (novoValor > 999999.99m)
-            throw new ArgumentException("Valor não pode ser maior que 999.999,99", nameof(novoValor));
+    // CentroCustoId is not present in DB schema; keep nullable for compatibility
+    public int? CentroCustoId { get; set; }
 
-        Valor = novoValor;
-        DataAtualizacao = DateTime.Now;
-    }
-
-    /// Atualiza a conta associada ao registro
-    /// <param name="contaId">ID da nova conta</param>
-    /// <exception cref="ArgumentException">Lançada quando o ID é inválido</exception>
-    public void AtualizarConta(int contaId)
-    {
-        if (contaId <= 0)
-            throw new ArgumentException("ID da conta deve ser maior que zero", nameof(contaId));
-
-        ContaId = contaId;
-        DataAtualizacao = DateTime.Now;
-    }
-
-    /// Atualiza o centro de custo associado ao registro
-    /// <param name="centroCustoId">ID do novo centro de custo</param>
-    /// <exception cref="ArgumentException">Lançada quando o ID é inválido</exception>
-    public void AtualizarCentroCusto(int centroCustoId)
-    {
-        if (centroCustoId <= 0)
-            throw new ArgumentException("ID do centro de custo deve ser maior que zero", nameof(centroCustoId));
-
-        CentroCustoId = centroCustoId;
-        DataAtualizacao = DateTime.Now;
-    }
-
-    /// Retorna uma descrição resumida do registro
-    public string GetDescricao()
-    {
-        return $"Registro: {IdRegCont} - Valor: {Valor:C} - Conta: {ContaId} - Centro: {CentroCustoId}";
-    }
 }

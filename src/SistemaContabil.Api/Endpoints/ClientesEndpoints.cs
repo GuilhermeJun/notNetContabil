@@ -1,4 +1,4 @@
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using IdempotentAPI.MinimalAPI;
 using Microsoft.EntityFrameworkCore;
 using SistemaContabil.Application.DTOs;
@@ -116,7 +116,6 @@ public static class ClienteEndpoints
             Cpf = clienteDto.Cpf.Trim(),
             Email = clienteDto.Email.Trim(),
             Senha = clienteDto.Senha.Trim(),
-            Ativo = clienteDto.AtivoChar,
             DataCadastro = DateTime.Now
         };
 

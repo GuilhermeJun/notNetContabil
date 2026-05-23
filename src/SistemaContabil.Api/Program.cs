@@ -1,15 +1,18 @@
 using HealthChecks.UI.Client;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
-using Microsoft.OpenApi;
 using Scalar.AspNetCore;
 using Serilog;
 using Serilog.Events;
 using SistemaContabil.Api.Endpoints;
-using SistemaContabil.Infrastructure.Extensions;
+using SistemaContabil.Infrastructure.Data;
 using SistemaContabil.Web.Middleware;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddDbContext<SistemaContabilDb>(opt => opt.UseInMemoryDatabase("SistemaContabilDb"));
+builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
 // Configuração do Serilog (logging estruturado)
 Log.Logger = new LoggerConfiguration()
@@ -56,33 +59,7 @@ builder.Services.AddHealthChecksUI(options =>
 }).AddInMemoryStorage();
 
 // Configuração do Swagger/OpenAPI/Scalar
-builder.Services.AddOpenApi(options =>
-{
-    options.OpenApiVersion = OpenApiSpecVersion.OpenApi3_0;
-    options.AddDocumentTransformer((document, context, cancellationToken) =>
-    {
-        document.Info = new OpenApiInfo()
-        {
-            Title = "CoreMonitor - Sistema Contábil API",
-            Version = "1.0.1",
-            Description = """API para sistema contábil com Oracle Database para pequenas empresas""",
-            License = new OpenApiLicense()
-            {
-                Name = "Core Monitor",
-                Url = new Uri("https://coremonitor.com.br/licence/coremonitor/")
-            },
-            Contact = new OpenApiContact()
-            {
-                Email = "contato@test.com.br",
-                Name = "CoreMonitor",
-                Url = new Uri("https://www.fiap.com.br")
-            }
-        };
-        return Task.CompletedTask;
-    }
-    );
-}
-);
+builder.Services.AddOpenApi();
 
 // Configuração de CORS
 builder.Services.AddCors(options =>
@@ -94,9 +71,6 @@ builder.Services.AddCors(options =>
               .AllowAnyHeader();
     });
 });
-
-// Configuração de serviços das camadas
-builder.Services.AddInfrastructureServices(builder.Configuration);
 
 builder.Services.AddProblemDetails();
 
@@ -123,17 +97,6 @@ app.UseSerilogRequestLogging(options =>
         diagnosticContext.Set("CorrelationId", httpContext.TraceIdentifier);
     };
     options.MessageTemplate = "Handled {RequestMethod} {RequestPath} responded {StatusCode} in {Elapsed:0.0000} ms";
-});
-
-// Adicionar cabeçalho de correlação na resposta
-app.Use(async (context, next) =>
-{
-    var correlationId = context.TraceIdentifier;
-    if (!context.Response.Headers.ContainsKey("X-Correlation-ID"))
-    {
-        context.Response.Headers.Add("X-Correlation-ID", correlationId);
-    }
-    await next();
 });
 
 app.UseCors("AllowAll");
@@ -178,33 +141,6 @@ app.MapGet("/", () => Results.Ok(new {
     Scalar = "/scalar/v1",
     Health = "/health",
     Timestamp = DateTime.UtcNow
-}))
-    .WithName("Root")
-    .WithTags("Test");
+})).WithName("Root").WithTags("Test");
 
-
-try
-{
-    Log.Information("Iniciando Sistema Contábil API");
-    Log.Information("Testando conexões Oracle...");
-    var workingConnection = await SistemaContabil.Infrastructure.Configuration.ConnectionTester.TestConnectionsAsync();
-    
-    if (workingConnection != null)
-    {
-        Log.Information("✅ Conexão Oracle funcionando!");
-    }
-    else
-    {
-        Log.Warning("⚠️ Nenhuma conexão Oracle funcionou. Verifique as configurações.");
-    }
-    
-    app.Run();
-}
-catch (Exception ex)
-{
-    Log.Fatal(ex, "Aplicação encerrada inesperadamente");
-}
-finally
-{
-    Log.CloseAndFlush();
-}
+app.Run();

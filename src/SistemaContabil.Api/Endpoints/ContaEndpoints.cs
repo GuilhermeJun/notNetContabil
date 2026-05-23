@@ -18,28 +18,28 @@ public static class ContaEndpoints
         contas.MapGet("/", GetAllContas)
             .WithName("GetAllContas")
             .WithSummary("Apresenta todas as contas contábeis")
-            .Produces<List<ContaDto>>();
+            .Produces<List<ContaRequest>>();
 
         contas.MapGet("/receitas", GetContasReceita)
             .WithName("GetContasReceita")
             .WithSummary("Apresenta todas as contas de receita")
-            .Produces<List<ContaDto>>();
+            .Produces<List<ContaRequest>>();
 
         contas.MapGet("/despesas", GetContasDespesa)
             .WithName("GetContasDespesa")
             .WithSummary("Apresenta todas as contas de despesa")
-            .Produces<List<ContaDto>>();
+            .Produces<List<ContaRequest>>();
 
         contas.MapGet("/{id:int}", GetConta)
             .WithName("GetContaById")
             .WithSummary("Busca uma conta por id")
-            .Produces<ContaDto>(200)
+            .Produces<ContaRequest>(200)
             .Produces(404);
 
         contas.MapPost("/", CreateConta)
             .WithName("CreateConta")
             .WithSummary("Cria uma nova conta")
-            .Produces<ContaDto>(201)
+            .Produces<ContaRequest>(201)
             .Produces(400)
             .AddEndpointFilter<IdempotentAPIEndpointFilter>();
 
@@ -100,7 +100,7 @@ public static class ContaEndpoints
     }
 
     static async Task<IResult> CreateConta(
-        [Description("Conta a ser cadastrada.")] CriarContaDto contaDto,
+        [Description("Conta a ser cadastrada.")] CreateContaRequest contaDto,
         SistemaContabilDb db)
     {
         if (contaDto.Tipo is not ('R' or 'D'))
@@ -124,7 +124,7 @@ public static class ContaEndpoints
 
     static async Task<IResult> UpdateConta(
         [Description("id da conta que será atualizada.")] int id,
-        AtualizarContaDto contaDto,
+        UpdateContaRequest contaDto,
         HttpContext http)
     {
         var db = http.RequestServices.GetRequiredService<SistemaContabilDb>();
@@ -168,9 +168,9 @@ public static class ContaEndpoints
         return TypedResults.NotFound();
     }
 
-    static ContaDto ToDto(Conta conta)
+    static ContaRequest ToDto(Conta conta)
     {
-        return new ContaDto
+        return new ContaRequest
         {
             IdContaContabil = conta.IdContaContabil,
             NomeContaContabil = conta.NomeContaContabil,

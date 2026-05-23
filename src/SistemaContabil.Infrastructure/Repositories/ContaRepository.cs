@@ -36,14 +36,6 @@ public class ContaRepository : Repository<Conta>
             .ToListAsync();
     }
 
-    public async Task<IEnumerable<Conta>> SearchByNomeAsync(string texto)
-    {
-        return await _dbSet
-            .Where(c => c.NomeContaContabil.Contains(texto))
-            .OrderBy(c => c.NomeContaContabil)
-            .ToListAsync();
-    }
-
     public async Task<IEnumerable<Conta>> GetWithRegistrosAsync()
     {
         return await _dbSet
@@ -63,18 +55,6 @@ public class ContaRepository : Repository<Conta>
         return await GetByTipoAsync('D');
     }
 
-    // Métodos da interface IContaRepository
-    public async Task<IEnumerable<Conta>> BuscarPorNomeAsync(string nome)
-    {
-        return await SearchByNomeAsync(nome);
-    }
-
-    public async Task<IEnumerable<Conta>> ObterPorTipoAsync(char tipo)
-    {
-        return await GetByTipoAsync(tipo);
-    }
-
-
     public async Task<IEnumerable<Conta>> ObterContasReceitaAsync()
     {
         return await GetContasReceitaAsync();
@@ -88,17 +68,6 @@ public class ContaRepository : Repository<Conta>
     public async Task<IEnumerable<Conta>> ObterComRegistrosAsync()
     {
         return await GetWithRegistrosAsync();
-    }
-
-    // Implementação dos métodos da interface para compatibilidade com serviços de domínio
-    public async Task<Conta?> ObterPorIdAsync(int id)
-    {
-        return await GetByIdAsync(id);
-    }
-
-    public async Task<IEnumerable<Conta>> ObterTodosAsync()
-    {
-        return await GetAllAsync();
     }
 
     public async Task<Conta> AdicionarAsync(Conta entity)
@@ -121,62 +90,4 @@ public class ContaRepository : Repository<Conta>
         return await RemoveByIdAsync(id);
     }
 
-    public async Task<(IEnumerable<Conta> Items, int TotalCount)> SearchPagedAsync(
-        string? nome = null,
-        char? tipo = null,
-        int? clienteId = null,
-        int page = 1,
-        int pageSize = 10,
-        string? sortBy = null,
-        bool isDescending = false)
-    {
-        var query = _dbSet.AsQueryable();
-
-        // Aplicar filtros
-        if (!string.IsNullOrWhiteSpace(nome))
-        {
-            query = query.Where(c => c.NomeContaContabil.Contains(nome));
-        }
-
-        if (tipo.HasValue)
-        {
-            query = query.Where(c => c.Tipo == tipo.Value);
-        }
-
-        if (clienteId.HasValue)
-        {
-            query = query.Where(c => c.ClienteIdCliente == clienteId.Value);
-        }
-
-        // Contar total
-        var totalCount = await query.CountAsync();
-
-        // Aplicar ordenação
-        query = ApplySorting(query, sortBy, isDescending);
-
-        // Aplicar paginação
-        var items = await query
-            .Skip((page - 1) * pageSize)
-            .Take(pageSize)
-            .ToListAsync();
-
-        return (items, totalCount);
-    }
-
-    private IQueryable<Conta> ApplySorting(IQueryable<Conta> query, string? sortBy, bool isDescending)
-    {
-        return sortBy?.ToLowerInvariant() switch
-        {
-            "nome" or "nomecontacontabil" => isDescending
-                ? query.OrderByDescending(c => c.NomeContaContabil)
-                : query.OrderBy(c => c.NomeContaContabil),
-            "tipo" => isDescending
-                ? query.OrderByDescending(c => c.Tipo)
-                : query.OrderBy(c => c.Tipo),
-            "id" or "idcontacontabil" => isDescending
-                ? query.OrderByDescending(c => c.IdContaContabil)
-                : query.OrderBy(c => c.IdContaContabil),
-            _ => query.OrderBy(c => c.NomeContaContabil)
-        };
-    }
 }
