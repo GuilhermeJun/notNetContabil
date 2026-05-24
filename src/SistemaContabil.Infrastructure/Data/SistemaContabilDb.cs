@@ -16,4 +16,5 @@ public class SistemaContabilDb : DbContext
     public DbSet<ItemVenda> ItensVenda { get; set; }
     public DbSet<Pagamento> Pagamentos { get; set; }
     public DbSet<RegistroContabil> RegistrosContabeis { get; set; }
+
 }
