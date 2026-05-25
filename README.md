@@ -1,6 +1,6 @@
 # Sistema Contabil API
 
-API REST para gerenciamento de um sistema contabil, desenvolvida em .NET 9 com Minimal APIs, Entity Framework Core e Oracle Database.
+API REST para gerenciamento de um sistema contabil voltada para pequenos e-commerces que vendem para marketplaces, desenvolvida em .NET 9 com Minimal APIs, Entity Framework Core e Oracle Database.
 
 ## Visao Geral
 
