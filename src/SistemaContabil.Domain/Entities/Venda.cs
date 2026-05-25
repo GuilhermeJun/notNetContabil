@@ -3,6 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SistemaContabil.Domain.Entities;
 
+[Table("vendas")]
 public class Venda
 {
     [Key]
@@ -64,13 +65,6 @@ public class Venda
 
     [ForeignKey(nameof(MarketplaceId))]
     public virtual Marketplace Marketplace { get; set; }
-
-    // Aliases for backward compatibility with existing code that uses different property names
-    [Column("id_vendas")]
-    public int IdVendas { get => Id; set => Id = value; }
-
-    [Column("venda_evento_id")]
-    public long? VendaEventoId { get; set; }
 
     // Compatibility navigation
     public RegistroContabil RegistroContabil { get => RegCont; set => RegCont = value; }

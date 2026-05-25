@@ -1,9 +1,9 @@
-using System.ComponentModel;
-using IdempotentAPI.MinimalAPI;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SistemaContabil.Application.DTOs;
 using SistemaContabil.Domain.Entities;
 using SistemaContabil.Infrastructure.Data;
+using System.ComponentModel;
 
 namespace SistemaContabil.Api.Endpoints;
 
@@ -39,7 +39,7 @@ public static class ClienteEndpoints
             .WithName("GetClienteById")
             .WithSummary("Busca um cliente por id")
             .WithDescription("Busca um cliente por id. Se o cliente não for encontrado, retorna um status code 404 (Not Found).")
-            .Produces<ClienteResponse>(200)
+            .Produces<ClienteHateoasResponse>(200)
             .Produces(404);
 
         clientes.MapPost("/", CreateCliente)
@@ -47,8 +47,7 @@ public static class ClienteEndpoints
             .WithSummary("Cria um novo cliente")
             .WithDescription("Cria um novo cliente. O id do cliente é gerado automaticamente pelo sistema.")
             .Produces<ClienteResponse>(201)
-            .Produces(400)
-            .AddEndpointFilter<IdempotentAPIEndpointFilter>();
+            .Produces(400);
 
         clientes.MapPut("/{id:int}", UpdateCliente)
             .WithName("UpdateClienteById")
@@ -75,7 +74,7 @@ public static class ClienteEndpoints
     static async Task<IResult> GetAllClientes(SistemaContabilDb db)
     {
         return TypedResults.Ok(await db.Clientes
-            .Select(x => new ClienteResponse(x))
+            .Select(x => new ClienteDto(x))
             .ToListAsync());
     }
 
@@ -89,16 +88,45 @@ public static class ClienteEndpoints
 
     static async Task<IResult> GetCliente(
         [Description("id do cliente que será buscado.")] int id,
-        SistemaContabilDb db)
+        SistemaContabilDb db,
+        LinkGenerator linkGenerator,
+        HttpContext httpContext)
     {
-        return await db.Clientes.FindAsync(id)
-            is Cliente cliente ? TypedResults.Ok(new ClienteResponse(cliente)) : TypedResults.NotFound();
+        var cliente = await db.Clientes.FindAsync(id);
+
+        if (cliente is null)
+        {
+            return TypedResults.NotFound();
+        }
+
+        var response = new ClienteHateoasResponse(cliente)
+        {
+            Links =
+            [
+                CreateLink("self", "GetClienteById", HttpMethods.Get, new { id = cliente.Id }),
+                CreateLink("clientes", "GetAllClientes", HttpMethods.Get),
+                CreateLink("atualizar", "UpdateClienteById", HttpMethods.Put, new { id = cliente.Id }),
+                CreateLink("excluir", "DeleteClienteById", HttpMethods.Delete, new { id = cliente.Id })
+            ]
+        };
+
+        return TypedResults.Ok(response);
+
+        HateoasLinkDto CreateLink(string rel, string routeName, string method, object? values = null)
+        {
+            var href = linkGenerator.GetUriByName(httpContext, routeName, values)
+                ?? linkGenerator.GetPathByName(routeName, values)
+                ?? string.Empty;
+
+            return new HateoasLinkDto(rel, href, method);
+        }
     }
 
     static async Task<IResult> CreateCliente(
         [Description("Cliente a ser cadastrado.")] CreateClienteRequest clienteDto,
         SistemaContabilDb db)
     {
+        /*
         if (await db.Clientes.AnyAsync(c => c.Cpf == clienteDto.Cpf))
         {
             return TypedResults.BadRequest(new { message = "Já existe um cliente com este CPF" });
@@ -108,16 +136,16 @@ public static class ClienteEndpoints
         {
             return TypedResults.BadRequest(new { message = "Já existe um cliente com este email" });
         }
+        */
 
         var cliente = new Cliente
         {
-            Id = await GetNextClienteIdAsync(db),
             Nome = clienteDto.Nome.Trim(),
+            DataCadastro = DateTime.Now,
             Cpf = clienteDto.Cpf.Trim(),
             Email = clienteDto.Email.Trim(),
             Senha = clienteDto.Senha.Trim(),
-            Ativo = clienteDto.AtivoChar,
-            DataCadastro = DateTime.Now
+            Ativo = clienteDto.Ativo
         };
 
         db.Clientes.Add(cliente);
@@ -136,8 +164,10 @@ public static class ClienteEndpoints
 
         if (cliente is null) return TypedResults.NotFound();
 
-        var ativo = !string.IsNullOrEmpty(clienteDto.Ativo) ? clienteDto.Ativo[0] : 'S';
-        if (ativo is not ('S' or 'N'))
+        // Se não foi informado no DTO, mantém o valor atual do cliente
+        /*
+        var ativo = clienteDto.Ativo != '\0' ? clienteDto.Ativo : cliente.Ativo;
+        if (ativo != 'S' && ativo != 'N')
         {
             return TypedResults.BadRequest(new { message = "Ativo deve ser 'S' (Ativo) ou 'N' (Inativo)" });
         }
@@ -146,10 +176,11 @@ public static class ClienteEndpoints
         {
             return TypedResults.BadRequest(new { message = "Já existe outro cliente com este email" });
         }
+        */
 
         cliente.Nome = clienteDto.Nome.Trim();
         cliente.Email = clienteDto.Email.Trim();
-        cliente.Ativo = ativo;
+        cliente.Ativo = clienteDto.Ativo;
 
         await db.SaveChangesAsync();
 
@@ -171,15 +202,6 @@ public static class ClienteEndpoints
         }
 
         return TypedResults.NotFound();
-    }
-
-    static async Task<int> GetNextClienteIdAsync(SistemaContabilDb db)
-    {
-        var result = await db.Database
-            .SqlQueryRaw<int>("SELECT cliente_seq.NEXTVAL FROM DUAL")
-            .ToListAsync();
-
-        return result.FirstOrDefault();
     }
 
     #endregion

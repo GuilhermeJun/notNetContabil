@@ -2,7 +2,7 @@ namespace SistemaContabil.Application.DTOs;
 
 public class VendaRequest
 {
-    public int IdVendas { get; set; }
+    public int Id { get; set; }
     public int ClienteId { get; set; }
     public string NomeCliente { get; set; } = string.Empty;
     public int RegContId { get; set; }

@@ -30,8 +30,8 @@ public static class RegistroContabilEndpoints
             .WithName("CreateRegistroContabil")
             .WithSummary("Cria um novo registro contábil")
             .Produces<RegistroContabilDto>(201)
-            .Produces(400)
-            .AddEndpointFilter<IdempotentAPIEndpointFilter>();
+            .Produces(400);
+            //.AddEndpointFilter<IdempotentAPIEndpointFilter>();
 
         registros.MapPut("/{id:int}", UpdateRegistroContabil)
             .WithName("UpdateRegistroContabilById")
@@ -66,7 +66,7 @@ public static class RegistroContabilEndpoints
     {
         var registro = await db.RegistrosContabeis
             .Include(r => r.Conta)
-            .FirstOrDefaultAsync(r => r.IdRegCont == id);
+            .FirstOrDefaultAsync(r => r.Id == id);
 
         return registro is null ? TypedResults.NotFound() : TypedResults.Ok(ToDto(registro));
     }
@@ -80,17 +80,17 @@ public static class RegistroContabilEndpoints
 
         var registro = new RegistroContabil
         {
-            IdRegCont = await GetNextRegistroContabilIdAsync(db),
+            Id = await GetNextRegistroContabilIdAsync(db),
             Valor = registroDto.Valor,
             ContaId = registroDto.ContaId,
             CentroCustoId = registroDto.CentroCustoId,
-            DataCriacao = DateTime.Now
+            DataLancamento = DateTime.Now
         };
 
         db.RegistrosContabeis.Add(registro);
         await db.SaveChangesAsync();
 
-        return TypedResults.Created($"/registros-contabeis/{registro.IdRegCont}", ToDto(registro));
+        return TypedResults.Created($"/registros-contabeis/{registro.Id}", ToDto(registro));
     }
 
     static async Task<IResult> UpdateRegistroContabil(
@@ -140,7 +140,7 @@ public static class RegistroContabilEndpoints
 
     static async Task<IResult?> ValidateReferencesAsync(int contaId, int? centroCustoId, SistemaContabilDb db)
     {
-        if (!await db.Contas.AnyAsync(c => c.IdContaContabil == contaId))
+        if (!await db.Contas.AnyAsync(c => c.IdConta == contaId))
         {
             return TypedResults.BadRequest(new { message = "Conta não encontrada" });
         }
@@ -151,12 +151,12 @@ public static class RegistroContabilEndpoints
     {
         return new RegistroContabilDto
         {
-            IdRegCont = registro.IdRegCont,
+            Id = registro.Id,
             Valor = registro.Valor,
             ContaId = registro.ContaId,
             CentroCustoId = registro.CentroCustoId,
-            NomeConta = registro.Conta?.NomeContaContabil ?? string.Empty,
-            DataCriacao = registro.DataCriacao,
+            NomeConta = registro.Conta?.NomeConta ?? string.Empty,
+            DataLancamento = registro.DataLancamento,
             DataAtualizacao = registro.DataAtualizacao
         };
     }
@@ -164,7 +164,7 @@ public static class RegistroContabilEndpoints
     static async Task<int> GetNextRegistroContabilIdAsync(SistemaContabilDb db)
     {
         var sequenceValue = await EndpointSequenceHelper.GetNextValueAsync(db, "reg_cont_seq", "registro_contabil_seq", "seq_registro_contabil");
-        return sequenceValue > 0 ? sequenceValue : await db.RegistrosContabeis.Select(r => r.IdRegCont).DefaultIfEmpty().MaxAsync() + 1;
+        return sequenceValue > 0 ? sequenceValue : await db.RegistrosContabeis.Select(r => r.Id).DefaultIfEmpty().MaxAsync() + 1;
     }
 
     #endregion

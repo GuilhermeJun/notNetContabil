@@ -3,6 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SistemaContabil.Domain.Entities;
 
+[Table("conta_contabil")]
 public class Conta
 {
     [Key]
@@ -26,13 +27,6 @@ public class Conta
     public virtual Cliente? Cliente { get; set; }
 
     public virtual ICollection<RegistroContabil> RegistrosContabeis { get; set; } = new List<RegistroContabil>();
-
-    // Backwards compatible aliases
-    [Column("id_conta")]
-    public int IdContaContabil { get => IdConta; set => IdConta = value; }
-
-    [Column("nome_conta")]
-    public string NomeContaContabil { get => NomeConta; set => NomeConta = value; }
 
     public string GetTipoDescricao()
     {

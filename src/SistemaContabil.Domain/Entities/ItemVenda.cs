@@ -3,6 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SistemaContabil.Domain.Entities
 {
+    [Table("item_venda")]
     public class ItemVenda
     {
         [Key]

@@ -1,18 +1,35 @@
 using HealthChecks.UI.Client;
+using IdempotentAPI.Cache.DistributedCache.Extensions.DependencyInjection;
+using IdempotentAPI.Core;
+using IdempotentAPI.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Scalar.AspNetCore;
 using Serilog;
 using Serilog.Events;
+using System.Data.Common;
+using System.Text.Json.Serialization;
 using SistemaContabil.Api.Endpoints;
 using SistemaContabil.Infrastructure.Data;
-using SistemaContabil.Web.Middleware;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddDbContext<SistemaContabilDb>(opt => opt.UseInMemoryDatabase("SistemaContabilDb"));
-builder.Services.AddDatabaseDeveloperPageExceptionFilter();
+// Configura DbContext com logging detalhado do EF para diagnosticar queries/erros de schema
+builder.Services.AddDbContext<SistemaContabilDb>(options =>
+{
+    options.UseOracle(builder.Configuration.GetConnectionString("FiapOracle"));
+    options.LogTo(Console.WriteLine, LogLevel.Information);
+    options.EnableSensitiveDataLogging();
+    options.EnableDetailedErrors();
+});
+
+
+builder.Services.AddIdempotentAPI();
+builder.Services.AddIdempotentMinimalAPI(new IdempotencyOptions());
+builder.Services.AddDistributedMemoryCache();
+builder.Services.AddIdempotentAPIUsingDistributedCache();
+
 
 // Configuração do Serilog (logging estruturado)
 Log.Logger = new LoggerConfiguration()
@@ -38,52 +55,28 @@ builder.Services.AddControllers()
         options.JsonSerializerOptions.Converters.Add(new System.Text.Json.Serialization.JsonStringEnumConverter());
         // Configurar para aceitar string de 1 caractere como char
         options.JsonSerializerOptions.NumberHandling = System.Text.Json.Serialization.JsonNumberHandling.AllowReadingFromString;
+        // Evita loops de referência ao serializar entidades do EF Core
+        options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
     });
+
 
 builder.Services.AddHealthChecks()
     .AddOracle(
-        connectionString: builder.Configuration.GetConnectionString("DefaultConnection"),
+        connectionString: builder.Configuration.GetConnectionString("FiapOracle"),
         name: "CoreMonitor-API",
         failureStatus: HealthStatus.Degraded,
-        tags: ["CM", "Oracle"],
+        tags: new[] { "CM", "Oracle" },
         healthQuery: "SELECT 1 FROM DUAL",
         timeout: TimeSpan.FromSeconds(30)
     );
 
-builder.Services.AddHealthChecksUI(options =>
-{
-    options.SetEvaluationTimeInSeconds(150);
-    options.MaximumHistoryEntriesPerEndpoint(5);
-    options.SetApiMaxActiveRequests(1);
-    options.AddHealthCheckEndpoint("api", "/health");
-}).AddInMemoryStorage();
 
 // Configuração do Swagger/OpenAPI/Scalar
 builder.Services.AddOpenApi();
 
-// Configuração de CORS
-builder.Services.AddCors(options =>
-{
-    options.AddPolicy("AllowAll", policy =>
-    {
-        policy.AllowAnyOrigin()
-              .AllowAnyMethod()
-              .AllowAnyHeader();
-    });
-});
-
-builder.Services.AddProblemDetails();
-
-// Configuração de validação
 builder.Services.AddProblemDetails();
 
 var app = builder.Build();
-
-// Middleware de tratamento de erros
-app.UseMiddleware<ExceptionHandlingMiddleware>();
-
-// Middleware de logging de requisições
-app.UseMiddleware<RequestLoggingMiddleware>();
 
 // Serilog request logging para correlação e logging estruturado
 app.UseSerilogRequestLogging(options =>

@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 
 namespace SistemaContabil.Domain.Entities
 {
+    [Table("usuario")]
     public class Usuario
     {
         [Key]
@@ -17,6 +18,10 @@ namespace SistemaContabil.Domain.Entities
         [StringLength(100)]
         [Column("nome_usuario")]
         public string Nome { get; set; }
+
+        [Required]
+        [Column("data_cadastro")]
+        public DateTime DataCadastro { get; set; }
 
         [Required]
         [StringLength(100)]

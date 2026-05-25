@@ -40,8 +40,7 @@ public static class ContaEndpoints
             .WithName("CreateConta")
             .WithSummary("Cria uma nova conta")
             .Produces<ContaRequest>(201)
-            .Produces(400)
-            .AddEndpointFilter<IdempotentAPIEndpointFilter>();
+            .Produces(400);
 
         contas.MapPut("/{id:int}", UpdateConta)
             .WithName("UpdateContaById")
@@ -94,7 +93,7 @@ public static class ContaEndpoints
     {
         var conta = await db.Contas
             .Include(c => c.RegistrosContabeis)
-            .FirstOrDefaultAsync(c => c.IdContaContabil == id);
+            .FirstOrDefaultAsync(c => c.IdConta == id);
 
         return conta is null ? TypedResults.NotFound() : TypedResults.Ok(ToDto(conta));
     }
@@ -110,8 +109,8 @@ public static class ContaEndpoints
 
         var conta = new Conta
         {
-            IdContaContabil = await GetNextContaIdAsync(db),
-            NomeContaContabil = contaDto.NomeContaContabil.Trim(),
+            IdConta = await GetNextContaIdAsync(db),
+            NomeConta = contaDto.NomeConta.Trim(),
             Tipo = contaDto.Tipo,
             ClienteIdCliente = contaDto.ClienteId
         };
@@ -119,7 +118,7 @@ public static class ContaEndpoints
         db.Contas.Add(conta);
         await db.SaveChangesAsync();
 
-        return TypedResults.Created($"/contas/{conta.IdContaContabil}", ToDto(conta));
+        return TypedResults.Created($"/contas/{conta.IdConta}", ToDto(conta));
     }
 
     static async Task<IResult> UpdateConta(
@@ -137,7 +136,7 @@ public static class ContaEndpoints
             return TypedResults.BadRequest(new { message = "Tipo deve ser 'R' (Receita) ou 'D' (Despesa)" });
         }
 
-        conta.NomeContaContabil = contaDto.NomeContaContabil.Trim();
+        conta.NomeConta = contaDto.NomeConta.Trim();
         conta.Tipo = contaDto.Tipo;
         conta.ClienteIdCliente = contaDto.ClienteId;
 
@@ -172,8 +171,8 @@ public static class ContaEndpoints
     {
         return new ContaRequest
         {
-            IdContaContabil = conta.IdContaContabil,
-            NomeContaContabil = conta.NomeContaContabil,
+            IdConta = conta.IdConta,
+            NomeConta = conta.NomeConta,
             Tipo = conta.Tipo,
             ClienteId = conta.ClienteIdCliente,
             TipoDescricao = conta.GetTipoDescricao(),
@@ -184,7 +183,7 @@ public static class ContaEndpoints
     static async Task<int> GetNextContaIdAsync(SistemaContabilDb db)
     {
         var sequenceValue = await EndpointSequenceHelper.GetNextValueAsync(db, "conta_seq", "seq_conta");
-        return sequenceValue > 0 ? sequenceValue : await db.Contas.Select(c => c.IdContaContabil).DefaultIfEmpty().MaxAsync() + 1;
+        return sequenceValue > 0 ? sequenceValue : await db.Contas.Select(c => c.IdConta).DefaultIfEmpty().MaxAsync() + 1;
     }
 
     #endregion

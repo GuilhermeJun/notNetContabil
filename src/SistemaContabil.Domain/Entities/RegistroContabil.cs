@@ -3,6 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SistemaContabil.Domain.Entities;
 
+[Table("reg_cont")]
 public class RegistroContabil
 {
     [Key]
@@ -25,13 +26,6 @@ public class RegistroContabil
 
     [ForeignKey(nameof(ContaId))]
     public virtual Conta Conta { get; set; }
-
-    // Backwards compatible aliases
-    [Column("id_reg_cont")]
-    public int IdRegCont { get => Id; set => Id = value; }
-
-    [Column("data_criacao")]
-    public DateTime DataCriacao { get => DataLancamento; set => DataLancamento = value; }
 
     // CentroCustoId is not present in DB schema; keep nullable for compatibility
     public int? CentroCustoId { get; set; }

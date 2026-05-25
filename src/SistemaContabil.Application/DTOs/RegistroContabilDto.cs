@@ -4,7 +4,7 @@ namespace SistemaContabil.Application.DTOs;
 
 public class RegistroContabilDto
 {
-    public int IdRegCont { get; set; }
+    public int Id { get; set; }
 
     public decimal Valor { get; set; }
 
@@ -16,7 +16,7 @@ public class RegistroContabilDto
 
     public string NomeCentroCusto { get; set; } = string.Empty;
 
-    public DateTime DataCriacao { get; set; }
+    public DateTime DataLancamento { get; set; }
 
     public DateTime? DataAtualizacao { get; set; }
 }

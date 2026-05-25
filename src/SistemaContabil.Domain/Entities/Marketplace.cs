@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 
 namespace SistemaContabil.Domain.Entities
 {
+    [Table("marketplace")]
     public class Marketplace
     {
         [Key]

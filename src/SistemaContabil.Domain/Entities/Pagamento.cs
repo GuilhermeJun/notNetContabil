@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SistemaContabil.Domain.Entities
 {
+    [Table("pagamento")]
     public class Pagamento
     {
         [Key]
@@ -30,9 +26,5 @@ namespace SistemaContabil.Domain.Entities
         [StringLength(20)]
         [Column("status")]
         public string Status { get; set; }
-
-        // Backwards compatibility
-        [Column("id_pag")]
-        public int IdPagamento { get => Id; set => Id = value; }
     }
 }

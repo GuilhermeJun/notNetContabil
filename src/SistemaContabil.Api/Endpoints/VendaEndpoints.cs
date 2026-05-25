@@ -30,8 +30,8 @@ public static class VendaEndpoints
             .WithName("CreateVenda")
             .WithSummary("Cria uma nova venda")
             .Produces<VendaRequest>(201)
-            .Produces(400)
-            .AddEndpointFilter<IdempotentAPIEndpointFilter>();
+            .Produces(400);
+            //.AddEndpointFilter<IdempotentAPIEndpointFilter>();
         #endregion
     }
 
@@ -53,7 +53,7 @@ public static class VendaEndpoints
         var venda = await db.Vendas
             .Include(v => v.Cliente)
             .Include(v => v.RegistroContabil)
-            .FirstOrDefaultAsync(v => v.IdVendas == id);
+            .FirstOrDefaultAsync(v => v.Id == id);
 
         return venda is null ? TypedResults.NotFound() : TypedResults.Ok(ToDto(venda));
     }
@@ -67,7 +67,7 @@ public static class VendaEndpoints
 
         var venda = new Venda
         {
-            IdVendas = await GetNextVendaIdAsync(db),
+            Id = await GetNextVendaIdAsync(db),
             ClienteId = vendaDto.ClienteId,
             RegContId = vendaDto.RegContId,
             PagamentoId = vendaDto.PagamentoId,
@@ -79,7 +79,7 @@ public static class VendaEndpoints
         db.Vendas.Add(venda);
         await db.SaveChangesAsync();
 
-        return TypedResults.Created($"/vendas/{venda.IdVendas}", ToDto(venda));
+        return TypedResults.Created($"/vendas/{venda.Id}", ToDto(venda));
     }
 
     static async Task<IResult?> ValidateReferencesAsync(int clienteId, int regContId, int pagamentoId, SistemaContabilDb db)
@@ -89,14 +89,14 @@ public static class VendaEndpoints
             return TypedResults.BadRequest(new { message = "Cliente não encontrado" });
         }
 
-        if (!await db.RegistrosContabeis.AnyAsync(r => r.IdRegCont == regContId))
+        if (!await db.RegistrosContabeis.AnyAsync(r => r.Id == regContId))
         {
             return TypedResults.BadRequest(new { message = "Registro contábil não encontrado" });
         }
 
         if (pagamentoId != 0)
         {
-            if (!await db.Pagamentos.AnyAsync(p => p.IdPagamento == pagamentoId))
+            if (!await db.Pagamentos.AnyAsync(p => p.Id == pagamentoId))
             {
                 return TypedResults.BadRequest(new { message = "Método de pagamento não encontrado" });
             }
@@ -109,7 +109,7 @@ public static class VendaEndpoints
     {
         return new VendaRequest
         {
-            IdVendas = venda.IdVendas,
+            Id = venda.Id,
             ClienteId = venda.ClienteId,
             NomeCliente = venda.Cliente?.Nome ?? string.Empty,
             RegContId = venda.RegContId,
@@ -120,7 +120,7 @@ public static class VendaEndpoints
     static async Task<int> GetNextVendaIdAsync(SistemaContabilDb db)
     {
         var sequenceValue = await EndpointSequenceHelper.GetNextValueAsync(db, "vendas_seq", "seq_vendas");
-        return sequenceValue > 0 ? sequenceValue : await db.Vendas.Select(v => v.IdVendas).DefaultIfEmpty().MaxAsync() + 1;
+        return sequenceValue > 0 ? sequenceValue : await db.Vendas.Select(v => v.Id).DefaultIfEmpty().MaxAsync() + 1;
     }
 
     #endregion

@@ -10,6 +10,7 @@
   <ItemGroup>
     <PackageReference Include="coverlet.collector" Version="6.0.4" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="9.0.5" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="9.0.5" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.13.0" />
     <PackageReference Include="xunit" Version="2.9.2" />
     <PackageReference Include="xunit.runner.visualstudio" Version="3.1.5" />
@@ -17,6 +18,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\src\SistemaContabil.Application\SistemaContabil.Application.csproj" />
+    <ProjectReference Include="..\src\SistemaContabil.Api\SistemaContabil.Api.csproj" />
     <ProjectReference Include="..\src\SistemaContabil.Domain\SistemaContabil.Domain.csproj" />
   </ItemGroup>
 

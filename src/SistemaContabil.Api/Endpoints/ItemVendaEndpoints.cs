@@ -30,8 +30,7 @@ public static class ItemVendaEndpoints
             .WithName("CreateItemVenda")
             .WithSummary("Cria um novo item de venda")
             .Produces<ItemVendaResponse>(201)
-            .Produces(400)
-            .AddEndpointFilter<IdempotentAPIEndpointFilter>();
+            .Produces(400);
 
         itensVenda.MapPut("/{id:int}", UpdateItemVenda)
             .WithName("UpdateItemVendaById")

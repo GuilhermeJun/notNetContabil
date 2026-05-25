@@ -4,9 +4,9 @@ namespace SistemaContabil.Application.DTOs;
 
 public class ContaRequest
 {
-    public int IdContaContabil { get; set; }
+    public int IdConta { get; set; }
 
-    public string NomeContaContabil { get; set; } = string.Empty;
+    public string NomeConta { get; set; } = string.Empty;
 
     public char Tipo { get; set; }
 
@@ -23,7 +23,7 @@ public class CreateContaRequest
 {
     [Required(ErrorMessage = "Nome da conta contábil é obrigatório")]
     [StringLength(70, ErrorMessage = "Nome não pode ter mais de 70 caracteres")]
-    public string NomeContaContabil { get; set; } = string.Empty;
+    public string NomeConta { get; set; } = string.Empty;
 
     [Required(ErrorMessage = "Tipo da conta é obrigatório")]
     [RegularExpression("^[RD]$", ErrorMessage = "Tipo deve ser 'R' (Receita) ou 'D' (Despesa)")]
@@ -36,7 +36,7 @@ public class UpdateContaRequest
 {
     [Required(ErrorMessage = "Nome da conta contábil é obrigatório")]
     [StringLength(70, ErrorMessage = "Nome não pode ter mais de 70 caracteres")]
-    public string NomeContaContabil { get; set; } = string.Empty;
+    public string NomeConta { get; set; } = string.Empty;
 
     [Required(ErrorMessage = "Tipo da conta é obrigatório")]
     [RegularExpression("^[RD]$", ErrorMessage = "Tipo deve ser 'R' (Receita) ou 'D' (Despesa)")]

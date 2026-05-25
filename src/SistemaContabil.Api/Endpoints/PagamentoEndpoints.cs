@@ -65,14 +65,14 @@ public static class PagamentoEndpoints
 
         var pagamento = new Pagamento
         {
-            IdPagamento = await db.Pagamentos.Select(p => p.IdPagamento).DefaultIfEmpty().MaxAsync() + 1,
+            Id = await db.Pagamentos.Select(p => p.Id).DefaultIfEmpty().MaxAsync() + 1,
             MetodoPagamento = pagamentoRequest.MetodoPagamento.Trim()
         };
 
         db.Pagamentos.Add(pagamento);
         await db.SaveChangesAsync();
 
-        return TypedResults.Created($"/pagamentos/{pagamento.IdPagamento}", pagamento);
+        return TypedResults.Created($"/pagamentos/{pagamento.Id}", pagamento);
     }
     #endregion
 }

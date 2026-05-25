@@ -19,13 +19,7 @@
 
   <ItemGroup>
     <Compile Remove="Controllers\CentroCustoController.cs" />
-    <Compile Remove="Endpoints\ClienteEndpoints.cs" />
     <Compile Remove="Endpoints\SearchEndpoints.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Content Remove="appsettings.Development.json" />
-    <Content Remove="appsettings.json" />
   </ItemGroup>
 
   <ItemGroup>

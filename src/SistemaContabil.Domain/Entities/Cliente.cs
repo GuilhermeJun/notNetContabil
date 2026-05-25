@@ -3,9 +3,11 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SistemaContabil.Domain.Entities;
 
+[Table("cliente")]
 public class Cliente
 {
     [Key]
+    [Column("id_cliente")]
     public int Id { get; set; }
 
     [Required]
@@ -35,10 +37,6 @@ public class Cliente
     [Required]
     [StringLength(1)]
     [Column("ativo")]
-    public char Ativo { get; set; } = 'S';
-
-    public virtual ICollection<Conta> Contas { get; set; } = new List<Conta>();
-
-    public virtual ICollection<Venda> Vendas { get; set; } = new List<Venda>();
+    public char Ativo { get; set; }
 
 }
