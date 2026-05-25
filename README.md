@@ -289,7 +289,3 @@ dotnet ef migrations add NomeDaMigration --project src/SistemaContabil.Infrastru
 # Aplicar migrations
 dotnet ef database update --project src/SistemaContabil.Infrastructure --startup-project src/SistemaContabil.Api
 ```
-
-## Status
-
-Projeto em desenvolvimento academico para pratica de .NET, API REST, Oracle, HATEOAS, testes de integracao e Clean Architecture.
